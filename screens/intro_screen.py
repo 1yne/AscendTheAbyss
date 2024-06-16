@@ -29,16 +29,17 @@ def intro_screen(self):
 
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
-
-    if play_button.is_pressed(mouse_pos, mouse_pressed):
-      intro = False
-      fade_out(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
     
     if play_button.is_hovering():
       pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
     
     if play_button.is_not_hovering():
       pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+  
+    if play_button.is_pressed(mouse_pos, mouse_pressed):
+      intro = False
+      pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+      fade_out(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
       
     if intro:
       show_display_text()
