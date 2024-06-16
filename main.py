@@ -2,15 +2,16 @@ import pygame
 from pygame.locals import *
 from components import *
 from config import *
+from time import sleep
 
 class Game: 
   def __init__(self):
     pygame.init()
-    pygame.display.set_caption("Test")
+    pygame.display.set_caption("Ascend the Abyss")
     self.screen = pygame.display.set_mode((800, 700), RESIZABLE)
     self.font = pygame.font.Font('EBGaramond.ttf', 96)
     self.running = True
-    self.raw_intro_background = pygame.image.load("./images/Background.jpg")
+    self.raw_intro_background = pygame.image.load("./images/Background.jpeg")
     self.intro_background = pygame.transform.scale(self.raw_intro_background, (800, 700))
     self.SCREEN_WIDTH, self.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
     self.window = self.screen.get_rect
@@ -51,7 +52,7 @@ class Game:
 
 
     def show_display_text():
-      title = self.font.render("Welcome to Test", True, WHITE)
+      title = self.font.render("Ascend the Abyss", True, WHITE)
       title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 5))
       self.screen.blit(title, title_coords)
 
