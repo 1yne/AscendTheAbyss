@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
     self.game = game
 
 class Button:
-  def __init__(self, x, y, width, height, fg, bg, content, fontsize):
+  def __init__(self, x, y, width, height, fg, bg, content, fontsize, image):
     self.font = pygame.font.Font("EBGaramond.ttf", fontsize)
 
     self.content = content
@@ -19,7 +19,9 @@ class Button:
     self.fg = fg
     self.bg = bg
     self.fontsize = fontsize
-    self.raw_bg_image = pygame.image.load("./images/ButtonBackgroundBrown.png")
+
+    self.image = image
+    self.raw_bg_image = pygame.image.load(self.image)
     self.bg_image = pygame.transform.scale(self.raw_bg_image, (self.width, self.height))
 
     self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA, 32)
