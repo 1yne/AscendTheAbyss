@@ -16,6 +16,14 @@ class Game:
     self.SCREEN_WIDTH, self.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
     self.window = self.screen.get_rect
 
+  def fade(self, width, height):
+    fade = pygame.Surface((width, height))
+    fade.fill((0, 0, 0))
+    for alpha in range(0, 300):
+      fade.set_alpha(alpha)
+      self.screen.blit(fade, (0, 0))
+      pygame.display.update()
+      pygame.time.delay(15)
 
   def new(self):
     # print("new() runs")
@@ -74,6 +82,7 @@ class Game:
 
       if play_button.is_pressed(mouse_pos, mouse_pressed):
         intro = False
+        self.fade(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
       
       if play_button.is_hovering():
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
