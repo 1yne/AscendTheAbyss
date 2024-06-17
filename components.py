@@ -44,3 +44,26 @@ class Button:
   def is_not_hovering(self):
     if self.rect.collidepoint(pygame.mouse.get_pos()) == False:
       return True
+
+class PlayerHealthBar:
+  def __init__(self, x, y, width, height, max_hp, screen):
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+    self.hp = max_hp
+    self.max_hp = max_hp
+    self.screen = screen
+
+  def draw(self, surface):
+    font = pygame.font.Font('EBGaramond.ttf', 16)
+    def show_display_text():
+      title = font.render(str(self.hp), True, BLACK)
+      self.screen.blit(title, (self.x + 10, self.y))
+
+    health_ratio = self.hp / self.max_hp
+    pygame.draw.rect(surface, GOLD, (self.x, self.y, self.width + 5, self.height + 5))
+    pygame.draw.rect(surface, "red", (self.x + 2.5, self.y + 2.5, self.width, self.height))
+    pygame.draw.rect(surface, "green", (self.x + 2.5, self.y + 2.5, self.width * health_ratio, self.height))
+
+    show_display_text()
