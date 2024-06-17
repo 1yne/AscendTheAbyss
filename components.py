@@ -57,6 +57,7 @@ class PlayerHealthBar:
 
   def draw(self, surface):
     font = pygame.font.Font('EBGaramond.ttf', 16)
+    
     def show_display_text():
       title = font.render(str(self.hp), True, BLACK)
       self.screen.blit(title, (self.x + 10, self.y))
