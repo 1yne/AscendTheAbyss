@@ -38,7 +38,7 @@ class Game:
         self.screen.blit(pygame.transform.scale(self.intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
     intro_screen(self)
-    fight_screen(self)
+    fight_screen(self, 40)
     map_screen(self)
   
   def draw(self):
