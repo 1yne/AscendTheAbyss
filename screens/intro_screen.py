@@ -6,8 +6,10 @@ from functions import *
 
 def intro_screen(self):
   intro = True
+  intro_background = pygame.transform.scale(self.raw_intro_background, (800, 700))
+
   # print("Intro screen running")
-  self.screen.blit(self.intro_background, (0, 0))
+  self.screen.blit(intro_background, (0, 0))
 
   def show_display_text():
     title = self.font.render("Ascend the Abyss", True, WHITE)
@@ -22,7 +24,7 @@ def intro_screen(self):
         self.running = False
         self.playing = False
       elif event.type == VIDEORESIZE:
-        self.screen.blit(pygame.transform.scale(self.intro_background, event.dict['size']), (0, 0))
+        self.screen.blit(pygame.transform.scale(intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
 
     play_button = Button(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, 380, 120, WHITE, BROWN, 'PLAY', 24,  "./images/ButtonBackgroundBrown.png")
