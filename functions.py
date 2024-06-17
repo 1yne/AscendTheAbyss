@@ -8,3 +8,12 @@ def fade_out(self, width, height):
     self.screen.blit(fade, (0, 0))
     pygame.display.update()
     pygame.time.delay(8)
+
+def fade_in(self, width, height, background):
+  fade = pygame.Surface((width, height))
+  fade.blit(background, (0, 0))
+  for alpha in range(0, 255):
+    fade.set_alpha(alpha)
+    self.screen.blit(fade, (0, 0))
+    pygame.display.update()
+    pygame.time.delay(8)
