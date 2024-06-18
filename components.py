@@ -49,30 +49,24 @@ class PlayerHealthBar:
   def __init__(self, screen, player_hp):
     self.x = 20
     self.y = 20
-    self.width = 300
-    self.height = 20
+    self.width = 343
+    self.height = 12.5
     self.hp = player_hp
     self.max_hp = 100
     self.screen = screen
 
   def draw(self, surface):
-    font = pygame.font.Font('EBGaramond.ttf', 16)
-    
-    def show_display_text():
-      title = font.render(str(self.hp), True, BLACK)
-      self.screen.blit(title, (self.x + 10, self.y + 0.5))
+    raw_hp_bg = pygame.image.load("./images/PlayerHealthBar.png")
+    health_bar_bg = pygame.transform.scale(raw_hp_bg, (400, 40))
+    self.screen.blit(health_bar_bg, (self.x, self.y))
 
     health_ratio = self.hp / self.max_hp
-    pygame.draw.rect(surface, GOLD, (self.x, self.y, self.width + 6, self.height + 6))
-    pygame.draw.rect(surface, "red", (self.x + 3, self.y + 3, self.width, self.height))
-    pygame.draw.rect(surface, "green", (self.x + 3, self.y + 3, self.width * health_ratio, self.height))
-
-    show_display_text()
+    pygame.draw.rect(surface, GREEN, (self.x + 33.5, self.y + 14, self.width * health_ratio, self.height))
 
 class EnemyHealthBar:
   def __init__(self, screen, enemy_hp, max_enemy_hp):
-    self.width = 300
-    self.height = 20
+    self.width = 343
+    self.height = 12.5
 
     self.hp = enemy_hp
     self.max_hp = max_enemy_hp
@@ -82,17 +76,11 @@ class EnemyHealthBar:
   def draw(self, surface, SCREEN_WIDTH):
     x = SCREEN_WIDTH
 
-    font = pygame.font.Font('EBGaramond.ttf', 16)
-    
-    def show_display_text():
-      title = font.render(str(self.hp), True, BLACK)
-      self.screen.blit(title, (x - 45, 20.5))
+    raw_hp_bg = pygame.image.load("./images/PlayerHealthBar.png")
+    health_bar_bg = pygame.transform.flip(pygame.transform.scale(raw_hp_bg, (400, 40)), True, False)
+    self.screen.blit(health_bar_bg, (x - 420, 20))
 
     health_ratio = self.hp / self.max_hp
     ratioed_width = self.width * health_ratio
 
-    pygame.draw.rect(surface, GOLD, (x - 320, 20, self.width + 6, self.height + 6))
-    pygame.draw.rect(surface, "red", (x - 317, 23, self.width, self.height))
-    pygame.draw.rect(surface, "green", (x - 17 - ratioed_width, 23, ratioed_width, self.height))
-
-    show_display_text()
+    pygame.draw.rect(surface, GREEN, (x - 53 - ratioed_width, 34, ratioed_width, self.height))
