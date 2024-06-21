@@ -1,12 +1,14 @@
 import pygame
 from pygame.locals import *
 from config import *
-from components import *
 from functions import *
+import pygame_widgets
+from pygame_widgets.button import Button
 
 def intro_screen(self):
-  intro = True
+  self.intro = True
   intro_background = pygame.transform.scale(self.raw_intro_background, (800, 700))
+  self.button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
   # print("Intro screen running")
   self.screen.blit(intro_background, (0, 0))
@@ -16,37 +18,42 @@ def intro_screen(self):
     title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 5))
     self.screen.blit(title, title_coords)
 
-  while intro:
-    for event in pygame.event.get():
+  def button_is_pressed():
+    self.intro = False
+    fade_out(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
+  while self.intro:
+    events = pygame.event.get()
+    for event in events:
       # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
-        intro = False
+        self.intro = False
         self.running = False
         self.playing = False
       elif event.type == VIDEORESIZE:
         self.screen.blit(pygame.transform.scale(intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
 
-    play_button = Button(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, 380, 120, WHITE, BROWN, 'PLAY', 24,  "./images/ButtonBackgroundBrown.png")
-
-    mouse_pos = pygame.mouse.get_pos()
-    mouse_pressed = pygame.mouse.get_pressed()
-    
-    if play_button.is_hovering():
-      pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-    
-    if play_button.is_not_hovering():
-      pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-  
-    if play_button.is_pressed(mouse_pos, mouse_pressed):
-      intro = False
-      pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-      fade_out(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+    button = Button(
+      self.screen,
+      self.SCREEN_WIDTH / 2 - 190,
+      self.SCREEN_HEIGHT / 2,
+      380,
+      40,
+      text="PLAY",
+      inactiveColour=BROWN,
+      hoverColour=BROWN_HOVER,
+      radius=8,
+      textColour=WHITE,
+      font=self.button_font,
+      onClick=lambda: button_is_pressed()
+    )
       
-    if intro:
+    if self.intro:
       show_display_text()
-      self.screen.blit(play_button.image, play_button.rect)
     else:
       self.screen.fill(BLACK)
+
+    pygame_widgets.update(events)
 
     pygame.display.update()
