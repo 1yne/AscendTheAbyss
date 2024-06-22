@@ -5,7 +5,7 @@ from functions import *
 from components import *
 from player import *
 
-def fight_screen(self, max_enemy_hp):
+def fight_screen(main, max_enemy_hp):
   fight = True
   discard_screen = False
   remaining_screen = False
@@ -15,16 +15,13 @@ def fight_screen(self, max_enemy_hp):
 
   deck_title = pygame.font.Font("EBGaramond.ttf", 45)
 
-  fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+  fight_background = pygame.transform.scale(main.raw_fight_background, (main.SCREEN_WIDTH, main.SCREEN_HEIGHT))
   enemy_hp = 10
 
-  fade_in(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, fight_background)
+  fade_in(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, fight_background)
 
-  player_health_bar = PlayerHealthBar(self.screen, self.player_hp, self.player_armor)
-  enemy_health_bar = EnemyHealthBar(self.screen, enemy_hp, max_enemy_hp)
-
-  discard_pile = DiscardPile(self.screen)  
-  remaining_pile = RemainingPile(self.screen)
+  discard_pile = DiscardPile(main.screen)  
+  remaining_pile = RemainingPile(main.screen)
     
   while fight:
     while remaining_screen:
@@ -33,23 +30,23 @@ def fight_screen(self, max_enemy_hp):
       for event in events:
         if event.type == pygame.QUIT:
           fight = False
-          self.running = False
-          self.playing = False
+          main.running = False
+          main.playing = False
         elif event.type == VIDEORESIZE:
-          self.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
-          self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
+          main.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
+          main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
 
-      back_arrow = BackArrow(self.screen, "left", self.SCREEN_WIDTH)
+      back_arrow = BackArrow(main.screen, "left", main.SCREEN_WIDTH)
 
       title = deck_title.render("Remaining Cards", True, WHITE)
-      title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
-      self.screen.blit(title, title_coords)
+      title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
+      main.screen.blit(title, title_coords)
 
-      CardGrid(remaining_cards, self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "r")
+      CardGrid(remaining_cards, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, "r")
 
       if back_arrow.is_pressed():
         remaining_screen = False
-        self.screen.blit(fight_background, (0, 0))
+        main.screen.blit(fight_background, (0, 0))
 
       pygame.display.update()
 
@@ -61,23 +58,23 @@ def fight_screen(self, max_enemy_hp):
       for event in events:
         if event.type == pygame.QUIT:
           fight = False
-          self.running = False
-          self.playing = False
+          main.running = False
+          main.playing = False
         elif event.type == VIDEORESIZE:
-          self.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
-          self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
+          main.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
+          main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
 
-      back_arrow = BackArrow(self.screen, "right", self.SCREEN_WIDTH)
+      back_arrow = BackArrow(main.screen, "right", main.SCREEN_WIDTH)
 
       title = deck_title.render("Discarded Cards", True, WHITE)
-      title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
-      self.screen.blit(title, title_coords)
+      title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
+      main.screen.blit(title, title_coords)
 
-      CardGrid(discarded_cards, self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "d")
+      CardGrid(discarded_cards, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, "d")
 
       if back_arrow.is_pressed():
         discard_screen = False
-        self.screen.blit(fight_background, (0, 0))
+        main.screen.blit(fight_background, (0, 0))
 
       pygame.display.update()
 
@@ -87,30 +84,33 @@ def fight_screen(self, max_enemy_hp):
     for event in events:
       if event.type == pygame.QUIT:
         fight = False
-        self.running = False
-        self.playing = False
+        main.running = False
+        main.playing = False
       elif event.type == VIDEORESIZE:
-        self.screen.blit(pygame.transform.scale(fight_background, event.dict['size']), (0, 0))
-        self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
+        main.screen.blit(pygame.transform.scale(fight_background, event.dict['size']), (0, 0))
+        main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
 
-    black_bg = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
+    player_health_bar = PlayerHealthBar(main.screen, main.player_hp, main.player_armor)
+    enemy_health_bar = EnemyHealthBar(main.screen, enemy_hp, max_enemy_hp)
+    
+    black_bg = pygame.Surface((main.SCREEN_WIDTH, main.SCREEN_HEIGHT), pygame.SRCALPHA)
     black_bg.fill((0, 0, 0, 200))
 
-    fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-    self.screen.blit(fight_background, (0, 0))
+    fight_background = pygame.transform.scale(main.raw_fight_background, (main.SCREEN_WIDTH, main.SCREEN_HEIGHT))
+    main.screen.blit(fight_background, (0, 0))
 
-    player_health_bar.draw(self.screen)
-    enemy_health_bar.draw(self.screen, self.SCREEN_WIDTH)
+    player_health_bar.draw(main.screen)
+    enemy_health_bar.draw(main.screen, main.SCREEN_WIDTH)
 
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
 
-    discard_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-    remaining_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+    discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
+    remaining_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
-    left_card = Card("left", remaining_cards[0], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
-    mid_card = Card("mid", remaining_cards[1], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
-    right_card = Card("right", remaining_cards[2], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
+    left_card = Card("left", remaining_cards[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
+    mid_card = Card("mid", remaining_cards[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
+    right_card = Card("right", remaining_cards[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
 
     if left_card.is_pressed():
       remaining_cards.remove(left_card.card_type)
@@ -128,11 +128,11 @@ def fight_screen(self, max_enemy_hp):
       pygame.time.delay(250)
 
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
-      self.screen.blit(black_bg, (0, 0))
+      main.screen.blit(black_bg, (0, 0))
       remaining_screen = True
 
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
-      self.screen.blit(black_bg, (0, 0))
+      main.screen.blit(black_bg, (0, 0))
       discard_screen = True
 
     pygame.display.update()

@@ -8,51 +8,51 @@ from screens.intro_screen import *
 from screens.fight_screen import *
 
 class Game: 
-  def __init__(self):
+  def __init__(main):
     pygame.init()
     pygame.display.set_caption("Ascend the Abyss")
     
-    self.screen = pygame.display.set_mode((800, 700), RESIZABLE)
-    self.font = pygame.font.Font('EBGaramond.ttf', 96)
-    self.running = True
-    self.SCREEN_WIDTH, self.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
+    main.screen = pygame.display.set_mode((800, 700), RESIZABLE)
+    main.font = pygame.font.Font('EBGaramond.ttf', 96)
+    main.running = True
+    main.SCREEN_WIDTH, main.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
 
-    self.raw_intro_background = pygame.image.load("./images/Background.jpeg")
-    self.raw_map_background = pygame.image.load("./images/MapBackground.jpeg")
-    self.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
+    main.raw_intro_background = pygame.image.load("./images/Background.jpeg")
+    main.raw_map_background = pygame.image.load("./images/MapBackground.jpeg")
+    main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
-    self.player_hp = 75
-    self.player_armor = 30
+    main.player_hp = 75
+    main.player_armor = 30
 
-  def new(self):
+  def new(main):
     # print("new() runs")
-    self.playing = True
+    main.playing = True
 
-  def events(self):
+  def events(main):
     # print("event() running")
     for event in pygame.event.get():
       # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
-        self.playing = False
-        self.running = False
+        main.playing = False
+        main.running = False
       elif event.type == VIDEORESIZE:
-        self.screen.blit(pygame.transform.scale(self.intro_background, event.dict['size']), (0, 0))
-        self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
-    intro_screen(self)
-    fight_screen(self, 40)
-    map_screen(self)
+        main.screen.blit(pygame.transform.scale(main.intro_background, event.dict['size']), (0, 0))
+        main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
+    intro_screen(main)
+    fight_screen(main, 40)
+    map_screen(main)
   
-  def draw(self):
+  def draw(main):
     # print("draw() running")
-    self.screen.fill(BLACK)
+    main.screen.fill(BLACK)
     pygame.display.update()
 
-  def main(self):
-    # print("main() running", self.playing)
-    while self.playing:
-      self.events()
-      self.draw()
-    self.running = False
+  def main(main):
+    # print("main() running", main.playing)
+    while main.playing:
+      main.events()
+      main.draw()
+    main.running = False
 
 g = Game()
 g.new()
