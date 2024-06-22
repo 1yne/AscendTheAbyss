@@ -23,7 +23,7 @@ def fight_screen(self, max_enemy_hp):
 
   fade_in(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, fight_background)
 
-  player_health_bar = PlayerHealthBar(self.screen, self.player_hp)
+  player_health_bar = PlayerHealthBar(self.screen, self.player_hp, self.player_armor)
   enemy_health_bar = EnemyHealthBar(self.screen, enemy_hp, max_enemy_hp)
 
   discard_pile = DiscardPile(self.screen)  

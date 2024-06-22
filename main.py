@@ -22,6 +22,7 @@ class Game:
     self.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
     self.player_hp = 75
+    self.player_armor = 30
 
   def new(self):
     # print("new() runs")

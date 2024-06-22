@@ -46,7 +46,7 @@ class Button:
       return True
 
 class PlayerHealthBar:
-  def __init__(self, screen, player_hp):
+  def __init__(self, screen, player_hp, player_armor):
     self.x = 20
     self.y = 20
     self.width = 343
@@ -54,6 +54,8 @@ class PlayerHealthBar:
     self.hp = player_hp
     self.max_hp = 100
     self.screen = screen
+    self.armor = player_armor
+    self.max_armor = 50
 
   def draw(self, surface):
     raw_hp_bg = pygame.image.load("./images/HealthBar.png")
@@ -62,6 +64,10 @@ class PlayerHealthBar:
 
     health_ratio = self.hp / self.max_hp
     pygame.draw.rect(surface, GREEN, (self.x + 33.5, self.y + 14, self.width * health_ratio, self.height))
+
+    armor_ratio = self.armor / self.max_armor
+    pygame.draw.rect(surface, GREY_BORDER, (self.x + 33.5, self.y + 40, self.width / 2 + 4, self.height / 2 + 4))
+    pygame.draw.rect(surface, GREY, (self.x + 35.5, self.y + 42, self.width / 2 * armor_ratio, self.height / 2))
 
 class EnemyHealthBar:
   def __init__(self, screen, enemy_hp, max_enemy_hp):
