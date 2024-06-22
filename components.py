@@ -85,38 +85,67 @@ class EnemyHealthBar:
 
     pygame.draw.rect(surface, GREEN, (x - 53 - ratioed_width, 34, ratioed_width, self.height))
 
-class DiscardPile:
-  def __init__(self, screen):
-    self.card_url = pygame.transform.scale(pygame.image.load("./images/DiscardedCards.png"), (80, 80))
-    self.screen = screen
-    self.rect = self.card_url.get_rect()
-
-  def draw(self, SCREEN_WIDTH, SCREEN_HEIGHT):
-    self.screen.blit(self.card_url, (20, SCREEN_HEIGHT - 100))
-
-  def is_pressed(self, pos, pressed):
-    if self.rect.collidepoint(pos):
-      print("collidepoint")
-      if pressed[0]:
-        print()
-        return  True
-      return False
-    return False
-  
 class RemainingPile:
   def __init__(self, screen):
     self.card_url = pygame.transform.scale(pygame.image.load("./images/RemainingCards.png"), (80, 80))
     self.screen = screen
     self.rect = self.card_url.get_rect()
 
-  def draw(self, SCREEN_WIDTH, SCREEN_HEIGHT):
-    self.screen.blit(self.card_url, (SCREEN_WIDTH - 100, SCREEN_HEIGHT - 100))
+  def draw(self, width, height):
+    self.screen.blit(self.card_url, (20, height - 100))
+    self.rect.x = 20
+    self.rect.y = height - 100
 
   def is_pressed(self, pos, pressed):
-    # print("is_pressed", self.rect, pos, pressed)
     if self.rect.collidepoint(pos):
-      # print("collidepoint", pos, pressed)
       if pressed[0]:
+        return  True
+      return False
+    return False
+  
+  # def slide(self, screen_width, background):
+  #   for x in range(screen_width):
+  #     # self.screen.blit(background, (x - screen_width, 0))
+  #     pygame.display.update()
+
+class DiscardPile:
+  def __init__(self, screen):
+    self.card_url = pygame.transform.scale(pygame.image.load("./images/DiscardedCards.png"), (80, 80))
+    self.screen = screen
+    self.rect = self.card_url.get_rect()
+
+  def draw(self, width, height):
+    self.screen.blit(self.card_url, (width - 100, height - 100))
+    self.rect.x = width - 100
+    self.rect.y = height - 100
+
+  def is_pressed(self, pos, pressed):
+    if self.rect.collidepoint(pos):
+      if pressed[0]:
+        return  True
+      return False
+    return False
+  
+  def slide(self, screen_width, background):
+    for x in range(screen_width):
+      self.screen.blit(background, (screen_width - x, 0))
+      pygame.display.update()
+
+  
+class BackArrow:
+  def __init__(self, screen):
+    self.screen = screen
+    self.back_arrow = pygame.transform.scale(pygame.image.load("./images/BackArrow.png"), (50, 50))
+    self.screen.blit(self.back_arrow, (20, 20))
+    self.rect = self.back_arrow.get_rect()
+    self.rect.x = 20
+    self.rect.y = 20
+
+  def is_pressed(self):
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()
+    if self.rect.collidepoint(mouse_pos):
+      if mouse_pressed[0]:
         return  True
       return False
     return False
