@@ -6,3 +6,12 @@ GOLD = (218, 172, 57)
 GREEN = (41, 138, 67)
 GREY_BORDER = (46, 46, 46)
 GREY = (97, 97, 97)
+
+ALL_CARDS = [
+  "BladeDance",
+  "Defend",
+  "Feed",
+  "LimitBreak",
+  "PerfectStrike",
+  "StrikeCard"
+]
