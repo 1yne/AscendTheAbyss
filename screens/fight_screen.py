@@ -32,6 +32,7 @@ def fight_screen(main, max_enemy_hp):
           fight = False
           main.running = False
           main.playing = False
+          pygame.quit()
         elif event.type == VIDEORESIZE:
           main.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
           main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
@@ -60,6 +61,7 @@ def fight_screen(main, max_enemy_hp):
           fight = False
           main.running = False
           main.playing = False
+          pygame.quit()
         elif event.type == VIDEORESIZE:
           main.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
           main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
@@ -86,6 +88,7 @@ def fight_screen(main, max_enemy_hp):
         fight = False
         main.running = False
         main.playing = False
+        pygame.quit()
       elif event.type == VIDEORESIZE:
         main.screen.blit(pygame.transform.scale(fight_background, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']

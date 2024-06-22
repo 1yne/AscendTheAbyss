@@ -30,6 +30,7 @@ def intro_screen(self):
         self.intro = False
         self.running = False
         self.playing = False
+        pygame.quit()
       elif event.type == VIDEORESIZE:
         self.screen.blit(pygame.transform.scale(intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
