@@ -7,6 +7,7 @@ from functions import *
 from components import *
 from player import *
 from mob import *
+import random
 
 def fight_screen(main, max_enemy_hp, mob_url):
   fight = True
@@ -30,7 +31,43 @@ def fight_screen(main, max_enemy_hp, mob_url):
   remaining_pile = RemainingPile(main.screen)
 
   def switch_turn():
-    current_turn = "enemy" if current_turn == "player" else "player"
+    nonlocal current_turn, enemy_hp
+    current_turn = "enemy"
+
+    title = deck_title.render("Enemy's Turn", True, WHITE)
+    title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
+    main.screen.blit(title, title_coords)
+
+    chosen_cards = random.sample(ALL_CARDS, 3)
+    for chosen_card in chosen_cards:
+      if chosen_card == "Feed":
+        if max_enemy_hp - enemy_hp > 7:
+          enemy_hp += 7
+      if chosen_card == "BladeDance":
+        if main.player_armor > 0:
+          main.player_armor -= 6
+          main.player_hp -= abs(main.player_armor)
+        else:
+          main.player_hp -= 6
+      if chosen_card == "LimitBreak":
+        if main.player_armor > 0:
+          main.player_armor -= 20
+          main.player_hp -= abs(main.player_armor)
+        else:
+          main.player_hp -= 20
+        enemy_hp -= 5
+      if chosen_card == "PerfectStrike":
+        if main.player_armor > 0:
+          main.player_armor -= 12
+          main.player_hp -= abs(main.player_armor)
+        else:
+          main.player_hp -= 12
+      if chosen_card == "StrikeCard":
+        if main.player_armor > 0:
+          main.player_armor -= 6
+          main.player_hp -= abs(main.player_armor)
+        else:
+          main.player_hp -= 6
     
   while fight:
     while remaining_screen:
@@ -114,7 +151,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     player_health_bar.draw(main.screen)
     enemy_health_bar.draw(main.screen, main.SCREEN_WIDTH)
 
-    mob = Mob(mob_url, main.screen, main.SCREEN_WIDTH)
+    Mob(mob_url, main.screen, main.SCREEN_WIDTH)
 
     end_turn = PyButton(
       main.screen,
