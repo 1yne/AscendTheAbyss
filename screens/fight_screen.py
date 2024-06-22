@@ -4,21 +4,19 @@ from config import *
 from functions import *
 from components import *
 from player import *
-import pygame_widgets
 
 def fight_screen(self, max_enemy_hp):
   fight = True
   discard_screen = False
   remaining_screen = False
 
-  remaining_cards = []
+  remaining_cards = ["BladeDance", "Defend", "Feed", "LimitBreak", "PerfectStrike", "StrikeCard"]
   discarded_cards = []
 
   deck_title = pygame.font.Font("EBGaramond.ttf", 45)
 
   fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
   enemy_hp = 10
-  raw_card_img = pygame.image.load("./images/StrikeCard.png")
 
   black_bg = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
   black_bg.fill((0, 0, 0, 200))
@@ -56,6 +54,8 @@ def fight_screen(self, max_enemy_hp):
 
       pygame.display.update()
 
+    ###############################
+      
     while discard_screen:
       events = pygame.event.get()
 
@@ -79,6 +79,8 @@ def fight_screen(self, max_enemy_hp):
         self.screen.blit(fight_background, (0, 0))
 
       pygame.display.update()
+
+    ##############################
       
     events = pygame.event.get()
     for event in events:
@@ -96,13 +98,27 @@ def fight_screen(self, max_enemy_hp):
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
 
-    # display_piles()
     discard_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
     remaining_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-    show_card(self, "left", self.SCREEN_HEIGHT, raw_card_img)
-    show_card(self, "mid", self.SCREEN_HEIGHT, raw_card_img)
-    show_card(self, "right", self.SCREEN_HEIGHT, raw_card_img)
+    left_card = Card("left", remaining_cards[0], self.SCREEN_HEIGHT, self.screen)
+    mid_card = Card("mid", remaining_cards[1], self.SCREEN_HEIGHT, self.screen)
+    right_card = Card("right", remaining_cards[2], self.SCREEN_HEIGHT, self.screen)
+
+    if left_card.is_pressed():
+      remaining_cards.remove(left_card.card_type)
+      discarded_cards.append(left_card.card_type)
+      pygame.time.delay(250)
+
+    if mid_card.is_pressed():
+      remaining_cards.remove(mid_card.card_type)
+      discarded_cards.append(mid_card.card_type)
+      pygame.time.delay(250)
+
+    if right_card.is_pressed():
+      remaining_cards.remove(right_card.card_type)
+      discarded_cards.append(right_card.card_type)
+      pygame.time.delay(250)
 
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
       self.screen.blit(black_bg, (0, 0))
@@ -112,5 +128,4 @@ def fight_screen(self, max_enemy_hp):
       self.screen.blit(black_bg, (0, 0))
       discard_screen = True
 
-    pygame_widgets.update(events)
     pygame.display.update()

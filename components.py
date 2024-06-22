@@ -154,3 +154,29 @@ class BackArrow:
         return  True
       return False
     return False
+
+class Card:
+  def __init__(self, pos, card_type, height, screen):
+    self.pos = pos
+    self.card_type = card_type
+    self.raw_card_url = pygame.image.load("./images/cards/" + card_type + ".png")
+    self.card_url = pygame.transform.scale(self.raw_card_url, (300, 450))
+    self.screen = screen
+    self.rect = self.card_url.get_rect()
+
+    self.x_val = 400 if pos == "left" else 600 if pos == "mid" else 800  
+    self.y_val = height - 350
+
+    self.screen.blit(self.card_url, (self.x_val, self.y_val))
+
+    self.rect.x = self.x_val
+    self.rect.y = self.y_val
+
+  def is_pressed(self):
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()
+    if self.rect.collidepoint(mouse_pos):
+      if mouse_pressed[0]:
+        return  True
+      return False
+    return False
