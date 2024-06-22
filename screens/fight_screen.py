@@ -5,19 +5,20 @@ from functions import *
 from components import *
 from player import *
 import pygame_widgets
-import time
 
 def fight_screen(self, max_enemy_hp):
   fight = True
   discard_screen = False
   remaining_screen = False
 
+  remaining_cards = []
+  discarded_cards = []
+
   deck_title = pygame.font.Font("EBGaramond.ttf", 45)
 
   fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
   enemy_hp = 10
   raw_card_img = pygame.image.load("./images/StrikeCard.png")
-  raw_map_bg = pygame.image.load("./images/MapBackground.jpeg")
 
   black_bg = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
   black_bg.fill((0, 0, 0, 200))
@@ -26,12 +27,6 @@ def fight_screen(self, max_enemy_hp):
 
   player_health_bar = PlayerHealthBar(self.screen, self.player_hp)
   enemy_health_bar = EnemyHealthBar(self.screen, enemy_hp, max_enemy_hp)
-
-  def show_card(pos):
-    x_val = 400 if pos == "left" else 600 if pos == "mid" else 800
-    y_val = self.SCREEN_HEIGHT - 350
-    card = pygame.transform.scale(raw_card_img, (300, 450))
-    self.screen.blit(card, (x_val, y_val))
 
   discard_pile = DiscardPile(self.screen)  
   remaining_pile = RemainingPile(self.screen)
@@ -105,9 +100,9 @@ def fight_screen(self, max_enemy_hp):
     discard_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
     remaining_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-    show_card("left")
-    show_card("mid")
-    show_card("right")
+    show_card(self, "left", self.SCREEN_HEIGHT, raw_card_img)
+    show_card(self, "mid", self.SCREEN_HEIGHT, raw_card_img)
+    show_card(self, "right", self.SCREEN_HEIGHT, raw_card_img)
 
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
       self.screen.blit(black_bg, (0, 0))
@@ -116,8 +111,6 @@ def fight_screen(self, max_enemy_hp):
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
       self.screen.blit(black_bg, (0, 0))
       discard_screen = True
-    # player.update()
-    # player.draw()
 
     pygame_widgets.update(events)
     pygame.display.update()
