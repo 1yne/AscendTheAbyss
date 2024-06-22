@@ -1,14 +1,20 @@
 import pygame
 from pygame.locals import *
+import pygame_widgets
+from pygame_widgets.button import Button as PyButton
 from config import *
 from functions import *
 from components import *
 from player import *
+from mob import *
 
-def fight_screen(main, max_enemy_hp):
+def fight_screen(main, max_enemy_hp, mob_url):
   fight = True
   discard_screen = False
   remaining_screen = False
+  current_turn = "player"
+
+  button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
   remaining_cards = ["BladeDance", "Defend", "Feed", "LimitBreak", "PerfectStrike", "StrikeCard"]
   discarded_cards = []
@@ -22,6 +28,9 @@ def fight_screen(main, max_enemy_hp):
 
   discard_pile = DiscardPile(main.screen)  
   remaining_pile = RemainingPile(main.screen)
+
+  def switch_turn():
+    current_turn = "enemy" if current_turn == "player" else "player"
     
   while fight:
     while remaining_screen:
@@ -105,6 +114,22 @@ def fight_screen(main, max_enemy_hp):
     player_health_bar.draw(main.screen)
     enemy_health_bar.draw(main.screen, main.SCREEN_WIDTH)
 
+    mob = Mob(mob_url, main.screen, main.SCREEN_WIDTH)
+
+    end_turn = PyButton(
+      main.screen,
+      main.SCREEN_WIDTH - 300,
+      main.SCREEN_HEIGHT - 300,
+      160,
+      40,
+      text="End Turn",
+      inactiveColour=GREY,
+      radius=8,
+      textColour=WHITE,
+      font=button_font,
+      onClick=lambda: switch_turn()
+    )
+
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
 
@@ -138,4 +163,5 @@ def fight_screen(main, max_enemy_hp):
       main.screen.blit(black_bg, (0, 0))
       discard_screen = True
 
+    pygame_widgets.update(events)
     pygame.display.update()
