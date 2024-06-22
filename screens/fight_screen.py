@@ -23,7 +23,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
   deck_title = pygame.font.Font("EBGaramond.ttf", 45)
 
   fight_background = pygame.transform.scale(main.raw_fight_background, (main.SCREEN_WIDTH, main.SCREEN_HEIGHT))
-  enemy_hp = 10
+  enemy_hp = max_enemy_hp
 
   fade_in(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, fight_background)
 
@@ -46,26 +46,30 @@ def fight_screen(main, max_enemy_hp, mob_url):
       if chosen_card == "BladeDance":
         if main.player_armor > 0:
           main.player_armor -= 6
-          main.player_hp -= abs(main.player_armor)
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
         else:
           main.player_hp -= 6
       if chosen_card == "LimitBreak":
         if main.player_armor > 0:
           main.player_armor -= 20
-          main.player_hp -= abs(main.player_armor)
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
         else:
           main.player_hp -= 20
         enemy_hp -= 5
       if chosen_card == "PerfectStrike":
         if main.player_armor > 0:
           main.player_armor -= 12
-          main.player_hp -= abs(main.player_armor)
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
         else:
           main.player_hp -= 12
       if chosen_card == "StrikeCard":
         if main.player_armor > 0:
           main.player_armor -= 6
-          main.player_hp -= abs(main.player_armor)
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
         else:
           main.player_hp -= 6
     
@@ -173,24 +177,29 @@ def fight_screen(main, max_enemy_hp, mob_url):
     discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     remaining_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
-    left_card = Card("left", remaining_cards[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
-    mid_card = Card("mid", remaining_cards[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
-    right_card = Card("right", remaining_cards[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main)
+    left_card = Card("left", remaining_cards[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    mid_card = Card("mid", remaining_cards[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    right_card = Card("right", remaining_cards[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
 
     if left_card.is_pressed():
       remaining_cards.remove(left_card.card_type)
       discarded_cards.append(left_card.card_type)
+      enemy_hp = left_card.enemy_hp
       pygame.time.delay(250)
 
     if mid_card.is_pressed():
       remaining_cards.remove(mid_card.card_type)
       discarded_cards.append(mid_card.card_type)
+      enemy_hp = mid_card.enemy_hp
       pygame.time.delay(250)
 
     if right_card.is_pressed():
       remaining_cards.remove(right_card.card_type)
       discarded_cards.append(right_card.card_type)
+      enemy_hp = right_card.enemy_hp
       pygame.time.delay(250)
+
+    
 
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
       main.screen.blit(black_bg, (0, 0))

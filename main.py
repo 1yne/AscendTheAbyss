@@ -21,8 +21,8 @@ class Game:
     main.raw_map_background = pygame.image.load("./images/MapBackground.jpeg")
     main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
-    main.player_hp = 75
-    main.player_armor = 30
+    main.player_hp = 100
+    main.player_armor = 50
 
   def new(main):
     # print("new() runs")
