@@ -56,7 +56,7 @@ class PlayerHealthBar:
     self.screen = screen
 
   def draw(self, surface):
-    raw_hp_bg = pygame.image.load("./images/PlayerHealthBar.png")
+    raw_hp_bg = pygame.image.load("./images/HealthBar.png")
     health_bar_bg = pygame.transform.scale(raw_hp_bg, (400, 40))
     self.screen.blit(health_bar_bg, (self.x, self.y))
 
@@ -76,7 +76,7 @@ class EnemyHealthBar:
   def draw(self, surface, SCREEN_WIDTH):
     x = SCREEN_WIDTH
 
-    raw_hp_bg = pygame.image.load("./images/PlayerHealthBar.png")
+    raw_hp_bg = pygame.image.load("./images/HealthBar.png")
     health_bar_bg = pygame.transform.flip(pygame.transform.scale(raw_hp_bg, (400, 40)), True, False)
     self.screen.blit(health_bar_bg, (x - 420, 20))
 
