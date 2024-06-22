@@ -18,9 +18,6 @@ def fight_screen(self, max_enemy_hp):
   fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
   enemy_hp = 10
 
-  black_bg = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
-  black_bg.fill((0, 0, 0, 200))
-
   fade_in(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, fight_background)
 
   player_health_bar = PlayerHealthBar(self.screen, self.player_hp, self.player_armor)
@@ -86,7 +83,6 @@ def fight_screen(self, max_enemy_hp):
 
     ##############################
       
-    self.screen.blit(fight_background, (0, 0))
     events = pygame.event.get()
     for event in events:
       if event.type == pygame.QUIT:
@@ -94,8 +90,14 @@ def fight_screen(self, max_enemy_hp):
         self.running = False
         self.playing = False
       elif event.type == VIDEORESIZE:
-        self.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
+        self.screen.blit(pygame.transform.scale(fight_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
+
+    black_bg = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
+    black_bg.fill((0, 0, 0, 200))
+
+    fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+    self.screen.blit(fight_background, (0, 0))
 
     player_health_bar.draw(self.screen)
     enemy_health_bar.draw(self.screen, self.SCREEN_WIDTH)
@@ -106,9 +108,9 @@ def fight_screen(self, max_enemy_hp):
     discard_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
     remaining_pile.draw(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
-    left_card = Card("left", remaining_cards[0], self.SCREEN_HEIGHT, self.screen)
-    mid_card = Card("mid", remaining_cards[1], self.SCREEN_HEIGHT, self.screen)
-    right_card = Card("right", remaining_cards[2], self.SCREEN_HEIGHT, self.screen)
+    left_card = Card("left", remaining_cards[0], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
+    mid_card = Card("mid", remaining_cards[1], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
+    right_card = Card("right", remaining_cards[2], self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.screen)
 
     if left_card.is_pressed():
       remaining_cards.remove(left_card.card_type)
