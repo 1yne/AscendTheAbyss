@@ -82,6 +82,7 @@ def fight_screen(self, max_enemy_hp):
 
     ##############################
       
+    self.screen.blit(fight_background, (0, 0))
     events = pygame.event.get()
     for event in events:
       if event.type == pygame.QUIT:
