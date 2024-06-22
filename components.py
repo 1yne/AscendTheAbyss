@@ -174,7 +174,12 @@ class Card:
     self.main = main
 
     self.x_val = self.width / 2 - 400 if pos == "left" else self.width / 2 - 150 if pos == "mid" else self.width / 2 + 100  
-    self.y_val = self.height - 350
+    self.y_val = self.height - 250
+
+    if pos == "left":
+      self.card_url = pygame.transform.rotate(self.card_url, 5)
+    elif pos == "right":
+      self.card_url = pygame.transform.rotate(self.card_url, -5)
 
     self.screen.blit(self.card_url, (self.x_val, self.y_val))
 
