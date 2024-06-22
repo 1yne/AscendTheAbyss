@@ -12,6 +12,8 @@ def fight_screen(self, max_enemy_hp):
   discard_screen = False
   remaining_screen = False
 
+  deck_title = pygame.font.Font("EBGaramond.ttf", 45)
+
   fight_background = pygame.transform.scale(self.raw_fight_background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
   enemy_hp = 10
   raw_card_img = pygame.image.load("./images/StrikeCard.png")
@@ -47,10 +49,38 @@ def fight_screen(self, max_enemy_hp):
           self.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
           self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
 
-      back_arrow = BackArrow(self.screen)
+      back_arrow = BackArrow(self.screen, "left", self.SCREEN_WIDTH)
+
+      title = deck_title.render("Remaining Cards", True, WHITE)
+      title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
+      self.screen.blit(title, title_coords)
 
       if back_arrow.is_pressed():
         remaining_screen = False
+        self.screen.blit(fight_background, (0, 0))
+
+      pygame.display.update()
+
+    while discard_screen:
+      events = pygame.event.get()
+
+      for event in events:
+        if event.type == pygame.QUIT:
+          fight = False
+          self.running = False
+          self.playing = False
+        elif event.type == VIDEORESIZE:
+          self.screen.blit(pygame.transform.scale(black_bg, event.dict['size']), (0, 0))
+          self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
+
+      back_arrow = BackArrow(self.screen, "right", self.SCREEN_WIDTH)
+
+      title = deck_title.render("Discarded Cards", True, WHITE)
+      title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
+      self.screen.blit(title, title_coords)
+
+      if back_arrow.is_pressed():
+        discard_screen = False
         self.screen.blit(fight_background, (0, 0))
 
       pygame.display.update()
@@ -84,8 +114,7 @@ def fight_screen(self, max_enemy_hp):
       remaining_screen = True
 
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
-      map_bg = pygame.transform.scale(raw_map_bg, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-      discard_pile.slide(self.SCREEN_WIDTH, map_bg)
+      self.screen.blit(black_bg, (0, 0))
       discard_screen = True
     # player.update()
     # player.draw()

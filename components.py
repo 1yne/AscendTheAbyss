@@ -133,12 +133,17 @@ class DiscardPile:
 
   
 class BackArrow:
-  def __init__(self, screen):
+  def __init__(self, screen, pos, width):
     self.screen = screen
     self.back_arrow = pygame.transform.scale(pygame.image.load("./images/BackArrow.png"), (50, 50))
-    self.screen.blit(self.back_arrow, (20, 20))
     self.rect = self.back_arrow.get_rect()
-    self.rect.x = 20
+    if pos == "left":
+      self.screen.blit(self.back_arrow, (20, 20))
+      self.rect.x = 20
+    else:
+      self.back_arrow = pygame.transform.flip(self.back_arrow, True, False)
+      self.screen.blit(self.back_arrow, (width - 60, 20))
+      self.rect.x = width - 60
     self.rect.y = 20
 
   def is_pressed(self):
