@@ -48,6 +48,8 @@ def fight_screen(self, max_enemy_hp):
       title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
       self.screen.blit(title, title_coords)
 
+      CardGrid(remaining_cards, self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "r")
+
       if back_arrow.is_pressed():
         remaining_screen = False
         self.screen.blit(fight_background, (0, 0))
@@ -73,6 +75,8 @@ def fight_screen(self, max_enemy_hp):
       title = deck_title.render("Discarded Cards", True, WHITE)
       title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, 40))
       self.screen.blit(title, title_coords)
+
+      CardGrid(discarded_cards, self.screen, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "d")
 
       if back_arrow.is_pressed():
         discard_screen = False

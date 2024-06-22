@@ -186,3 +186,34 @@ class Card:
         return  True
       return False
     return False
+  
+class CardGrid:
+  def __init__(self, card_list, screen, width, height, card_type):
+    self.list = card_list
+    self.screen = screen
+    self.margin = 100
+    self.y_val = 100
+    self.x_val = 100
+    self.gap = ((width - 200) - 1200) / 4
+    self.card_type = card_type
+    self.width = width
+    self.height = height
+
+    for card in self.list:
+      raw_card_url = pygame.image.load("./images/cards/" + card + ".png")
+      card_url = pygame.transform.scale(raw_card_url, (300, 450))
+      self.x_val = self.margin + self.list.index(card) * 300 + self.gap
+
+      if len(self.list) > 4:
+        if self.list.index(card) == 4:
+          self.y_val += 400
+          self.x_val = 100
+
+      self.screen.blit(card_url, (self.x_val, self.y_val))
+
+    if len(self.list) == 0:
+      font = pygame.font.Font('EBGaramond.ttf', 20)
+      title = font.render("No Remaining Cards" if card_type == "r" else "No Discarded Cards", True, WHITE)
+      title_coords = title.get_rect(center=(self.width / 2, self.height / 8))
+      self.screen.blit(title, title_coords)
+  
