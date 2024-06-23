@@ -173,20 +173,19 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     Mob(mob_url, main.screen, main.SCREEN_WIDTH)
 
-    if not remaining_screen or not discard_screen:
-      end_turn = PyButton(
-        main.screen,
-        main.SCREEN_WIDTH - 300,
-        main.SCREEN_HEIGHT - 300,
-        160,
-        40,
-        text="End Turn",
-        inactiveColour=GREY,
-        radius=8,
-        textColour=WHITE,
-        font=button_font,
-        onClick=lambda: switch_turn()
-      )
+    end_turn = PyButton(
+      main.screen,
+      main.SCREEN_WIDTH - 300,
+      main.SCREEN_HEIGHT - 300,
+      160,
+      40,
+      text="End Turn",
+      inactiveColour=GREY,
+      radius=8,
+      textColour=WHITE,
+      font=button_font,
+      onClick=lambda: switch_turn()
+    )
 
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
