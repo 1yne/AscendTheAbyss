@@ -205,10 +205,13 @@ class Card:
       if mouse_pressed[0]:
         if self.card_type == "Defend":
           self.main.player_armor += 5
+          if self.main.player_armor > 50:
+            self.main.player_armor = 50
 
         if self.card_type == "Feed":
-          if 100 - self.main.player_hp > 7:
-            self.main.player_hp += 7
+          self.main.player_hp += 7
+          if self.main.player_hp > 100:
+            self.main.player_hp = 100
 
         if self.card_type == "BladeDance":
           self.enemy_hp -= 6

@@ -47,6 +47,8 @@ def fight_screen(main, max_enemy_hp, mob_url):
     discarded_cards.append(card.card_type)
     current_deck.remove(card.card_type)
     enemy_hp = card.enemy_hp
+    main.player_hp = card.main.player_hp
+    main.player_armor = card.main.player_armor
     pygame.time.delay(250)
 
     if enemy_hp <= 0:
