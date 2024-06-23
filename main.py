@@ -39,7 +39,7 @@ class Game:
         main.screen.blit(pygame.transform.scale(main.intro_background, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     intro_screen(main)
-    fight_screen(main, 40, "MobOne")
+    victory = fight_screen(main, 40, "MobOne")
     map_screen(main)
   
   def draw(main):

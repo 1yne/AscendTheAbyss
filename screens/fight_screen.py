@@ -14,11 +14,15 @@ def fight_screen(main, max_enemy_hp, mob_url):
   discard_screen = False
   remaining_screen = False
   current_turn = "player"
+  victory = False
 
   button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
-  remaining_cards = ["BladeDance", "Defend", "Feed", "LimitBreak", "PerfectStrike", "StrikeCard"]
+  remaining_cards = ["BladeDance", "Defend", "Feed", "LimitBreak", "PerfectStrike"]
+  random.shuffle(remaining_cards)
   discarded_cards = []
+  current_deck = remaining_cards[0:3]
+  del remaining_cards[0:3]
 
   deck_title = pygame.font.Font("EBGaramond.ttf", 45)
 
@@ -30,13 +34,28 @@ def fight_screen(main, max_enemy_hp, mob_url):
   discard_pile = DiscardPile(main.screen)  
   remaining_pile = RemainingPile(main.screen)
 
-  def switch_turn():
-    nonlocal current_turn, enemy_hp
-    current_turn = "enemy"
+  def display_black_bg(type):
+    nonlocal remaining_screen, discard_screen
+    main.screen.blit(black_bg, (0, 0))
+    if type == "r":
+      remaining_screen = True
+    else:
+      discard_screen = True
 
-    title = deck_title.render("Enemy's Turn", True, WHITE)
-    title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
-    main.screen.blit(title, title_coords)
+  def attack(card):
+    nonlocal enemy_hp, fight, victory
+    discarded_cards.append(card.card_type)
+    current_deck.remove(card.card_type)
+    enemy_hp = card.enemy_hp
+    pygame.time.delay(250)
+
+    if enemy_hp <= 0:
+      victory = True
+      fight = False
+
+  def switch_turn():
+    nonlocal current_turn, enemy_hp, fight, victory
+    current_turn = "enemy"
 
     chosen_cards = random.sample(ALL_CARDS, 3)
     for chosen_card in chosen_cards:
@@ -65,13 +84,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
             main.player_hp -= abs(main.player_armor)
         else:
           main.player_hp -= 12
-      if chosen_card == "StrikeCard":
-        if main.player_armor > 0:
-          main.player_armor -= 6
-          if main.player_armor < 0:
-            main.player_hp -= abs(main.player_armor)
-        else:
-          main.player_hp -= 6
+    
+    if enemy_hp <= 0:
+      victory = True
+      fight = False
     
   while fight:
     while remaining_screen:
@@ -157,57 +173,81 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     Mob(mob_url, main.screen, main.SCREEN_WIDTH)
 
-    end_turn = PyButton(
-      main.screen,
-      main.SCREEN_WIDTH - 300,
-      main.SCREEN_HEIGHT - 300,
-      160,
-      40,
-      text="End Turn",
-      inactiveColour=GREY,
-      radius=8,
-      textColour=WHITE,
-      font=button_font,
-      onClick=lambda: switch_turn()
-    )
+    if not remaining_screen or not discard_screen:
+      end_turn = PyButton(
+        main.screen,
+        main.SCREEN_WIDTH - 300,
+        main.SCREEN_HEIGHT - 300,
+        160,
+        40,
+        text="End Turn",
+        inactiveColour=GREY,
+        radius=8,
+        textColour=WHITE,
+        font=button_font,
+        onClick=lambda: switch_turn()
+      )
 
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
 
     discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     remaining_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
+    left_card = None
+    mid_card = None
+    right_card = None 
+    ml_card = None
+    mr_card = None
 
-    left_card = Card("left", remaining_cards[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-    mid_card = Card("mid", remaining_cards[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-    right_card = Card("right", remaining_cards[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    if len(current_deck) == 3:
+      left_card = Card("left", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+      mid_card = Card("mid", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+      right_card = Card("right", current_deck[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    elif len(current_deck) == 2:
+      ml_card = Card("ml", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+      mr_card = Card("mr", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    elif len(current_deck) == 1:
+      mid_card = Card("mid", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
 
-    if left_card.is_pressed():
-      remaining_cards.remove(left_card.card_type)
-      discarded_cards.append(left_card.card_type)
-      enemy_hp = left_card.enemy_hp
-      pygame.time.delay(250)
+    if left_card and left_card.is_pressed():
+      attack(left_card)
 
-    if mid_card.is_pressed():
-      remaining_cards.remove(mid_card.card_type)
-      discarded_cards.append(mid_card.card_type)
-      enemy_hp = mid_card.enemy_hp
-      pygame.time.delay(250)
+    if mid_card and mid_card.is_pressed():
+      attack(mid_card)
+      if len(current_deck) == 0:
+        switch_turn()
+        title = deck_title.render("Enemy's Turn", True, WHITE)
+        title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
+        main.screen.blit(title, title_coords)
+        if len(remaining_cards) >= 3:
+          current_deck = remaining_cards[0:3]
+        else:
+          if len(remaining_cards) == 0:
+            remaining_cards = ALL_CARDS
+            random.shuffle(remaining_cards)
+            discarded_cards = []
+            current_deck = remaining_cards[0:3]
+          else:
+            current_deck = remaining_cards
+            remaining_cards = []
 
-    if right_card.is_pressed():
-      remaining_cards.remove(right_card.card_type)
-      discarded_cards.append(right_card.card_type)
-      enemy_hp = right_card.enemy_hp
-      pygame.time.delay(250)
+    if right_card and right_card.is_pressed():
+      attack(right_card)
 
-    
+    if ml_card and ml_card.is_pressed():
+      attack(ml_card)
+
+    if mr_card and mr_card.is_pressed():
+      attack(mr_card)
 
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
-      main.screen.blit(black_bg, (0, 0))
-      remaining_screen = True
+      display_black_bg("r")
 
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
-      main.screen.blit(black_bg, (0, 0))
-      discard_screen = True
+      display_black_bg("d")
 
     pygame_widgets.update(events)
     pygame.display.update()
+
+    if fight == False:
+      return victory

@@ -174,13 +174,24 @@ class Card:
     self.main = main
     self.enemy_hp = enemy_hp
 
-    self.x_val = self.width / 2 - 400 if pos == "left" else self.width / 2 - 150 if pos == "mid" else self.width / 2 + 100  
-    self.y_val = self.height - 250
+    self.x_val = 0
 
     if pos == "left":
+      self.x_val = self.width / 2 - 400
       self.card_url = pygame.transform.rotate(self.card_url, 5)
+    elif pos == "mid":
+      self.x_val = self.width / 2 - 150
     elif pos == "right":
+      self.x_val = self.width / 2 + 100  
       self.card_url = pygame.transform.rotate(self.card_url, -5)
+    elif pos == "ml":
+      self.x_val = self.width / 2 - 300
+      self.card_url = pygame.transform.rotate(self.card_url, 5)
+    elif pos == "mr":
+      self.x_val = self.width / 2 
+      self.card_url = pygame.transform.rotate(self.card_url, -5)
+
+    self.y_val = self.height - 250
 
     self.screen.blit(self.card_url, (self.x_val, self.y_val))
 
@@ -208,9 +219,6 @@ class Card:
 
         if self.card_type == "PerfectStrike":
           self.enemy_hp -= 12
-
-        if self.card_type == "StrikeCard":
-          self.enemy_hp -= 6
         return True
       return False
     return False
