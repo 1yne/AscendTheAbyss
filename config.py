@@ -12,6 +12,5 @@ ALL_CARDS = [
   "Defend",
   "Feed",
   "LimitBreak",
-  "PerfectStrike",
-  "StrikeCard"
+  "PerfectStrike"
 ]
