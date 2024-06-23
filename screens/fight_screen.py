@@ -215,9 +215,6 @@ def fight_screen(main, max_enemy_hp, mob_url):
       attack(mid_card)
       if len(current_deck) == 0:
         switch_turn()
-        title = deck_title.render("Enemy's Turn", True, WHITE)
-        title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
-        main.screen.blit(title, title_coords)
         if len(remaining_cards) >= 3:
           current_deck = remaining_cards[0:3]
         else:

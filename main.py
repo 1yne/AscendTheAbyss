@@ -6,6 +6,7 @@ from functions import *
 from screens.map_screen import *
 from screens.intro_screen import *
 from screens.fight_screen import *
+from screens.victory_screen import *
 
 class Game: 
   def __init__(main):
@@ -40,6 +41,8 @@ class Game:
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     intro_screen(main)
     victory = fight_screen(main, 40, "MobOne")
+    if victory:
+      victory_screen(main)
     map_screen(main)
   
   def draw(main):
