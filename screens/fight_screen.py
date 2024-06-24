@@ -90,6 +90,8 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if enemy_hp <= 0:
       victory = True
       fight = False
+
+  player = Player(main.screen)
     
   while fight:
     while remaining_screen:
@@ -243,6 +245,9 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
       display_black_bg("d")
+
+    player.update()
+    player.draw()
 
     pygame_widgets.update(events)
     pygame.display.update()
