@@ -1,5 +1,6 @@
 import pygame
 from config import *
+import time
 
 class Player(pygame.sprite.Sprite):
   def __init__(self, game):
@@ -69,6 +70,10 @@ class PlayerHealthBar:
     pygame.draw.rect(surface, GREY_BORDER, (self.x + 33.5, self.y + 40, self.width / 2 + 4, self.height / 2 + 4))
     pygame.draw.rect(surface, GREY, (self.x + 35.5, self.y + 42, self.width / 2 * armor_ratio, self.height / 2))
 
+    font = pygame.font.Font('EBGaramond.ttf', 12)
+    health = font.render(str(self.hp), True, WHITE)
+    self.screen.blit(health, (self.x + 40, self.y + 11.5))
+
 class EnemyHealthBar:
   def __init__(self, screen, enemy_hp, max_enemy_hp):
     self.width = 343
@@ -91,6 +96,10 @@ class EnemyHealthBar:
 
     pygame.draw.rect(surface, GREEN, (x - 53 - ratioed_width, 34, ratioed_width, self.height))
 
+    font = pygame.font.Font('EBGaramond.ttf', 12)
+    health = font.render(str(self.hp), True, WHITE)
+    self.screen.blit(health, (x - 70, 31.5))
+
 class RemainingPile:
   def __init__(self, screen):
     self.card_url = pygame.transform.scale(pygame.image.load("./images/RemainingCards.png"), (80, 80))
@@ -108,11 +117,6 @@ class RemainingPile:
         return  True
       return False
     return False
-  
-  # def slide(self, screen_width, background):
-  #   for x in range(screen_width):
-  #     # self.screen.blit(background, (x - screen_width, 0))
-  #     pygame.display.update()
 
 class DiscardPile:
   def __init__(self, screen):
@@ -173,6 +177,8 @@ class Card:
     self.height = height
     self.main = main
     self.enemy_hp = enemy_hp
+    self.damage_inflicted = 0
+    self.damage_received = 0
 
     self.x_val = 0
 
@@ -215,13 +221,17 @@ class Card:
 
         if self.card_type == "BladeDance":
           self.enemy_hp -= 6
+          self.damage_inflicted += 6
 
         if self.card_type == "LimitBreak":
           self.enemy_hp -= 20
           self.main.player_hp -= 5
+          self.damage_inflicted += 20
+          self.damage_received += 5
 
         if self.card_type == "PerfectStrike":
           self.enemy_hp -= 12
+          self.damage_inflicted += 12
         return True
       return False
     return False

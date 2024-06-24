@@ -19,11 +19,13 @@ class Game:
     main.SCREEN_WIDTH, main.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
 
     main.raw_intro_background = pygame.image.load("./images/Background.jpeg")
-    main.raw_map_background = pygame.image.load("./images/MapBackground.jpeg")
+    main.raw_map_background = pygame.image.load("./images/MapBackground.png")
     main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
     main.player_hp = 100
     main.player_armor = 50
+
+    main.current_state = "enemy_one"
 
   def new(main):
     # print("new() runs")
@@ -40,18 +42,26 @@ class Game:
         main.screen.blit(pygame.transform.scale(main.intro_background, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     intro_screen(main)
-    victory = fight_screen(main, 40, "MobOne")
-    if victory:
-      victory_screen(main)
-    map_screen(main)
+    # map_screen(main, main.current_state)
+
+    data = fight_screen(main, 40, "enemy_one")
+    if data[0]:
+      victory_screen(main, data)
+      data = fight_screen(main, 50, "enemy_two")
+      if data[0]:
+        victory_screen(main, data)
+        data = fight_screen(main, 70, "enemy_three")
+        if data[0]:
+          victory_screen(main, data)
+          data = fight_screen(main, 80, "enemy_four")
+    
+    
   
   def draw(main):
-    # print("draw() running")
     main.screen.fill(BLACK)
     pygame.display.update()
 
   def main(main):
-    # print("main() running", main.playing)
     while main.playing:
       main.events()
       main.draw()

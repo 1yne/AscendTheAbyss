@@ -3,17 +3,29 @@ from pygame.locals import *
 from functions import *
 from config import *
 
-def victory_screen(main):
+def victory_screen(main, data):
   victory = True
   black_bg = pygame.Surface((main.SCREEN_WIDTH, main.SCREEN_HEIGHT), pygame.SRCALPHA)
   black_bg.fill((0, 0, 0, 200))
   fade_in_victory(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, black_bg)
   start_time = pygame.time.get_ticks()
+  font = pygame.font.Font('EBGaramond.ttf', 45)
+  damage_inflicted = data[1]
+  damage_received = data[2]
 
   def display_text():
     title = main.font.render("VICTORY", True, WHITE)
     title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 5))
     main.screen.blit(title, title_coords)
+
+  def display_damage():
+    dmg_infl_text = font.render("Damage Inflicted: " + str(damage_inflicted), True, WHITE)
+    dmg_infl_text_coords = dmg_infl_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 5 + 150))
+    main.screen.blit(dmg_infl_text, dmg_infl_text_coords)
+
+    dmg_recv_text = font.render("Damage Received: " + str(damage_received), True, WHITE)
+    dmg_recv_text_coords = dmg_recv_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 5 + 220))
+    main.screen.blit(dmg_recv_text, dmg_recv_text_coords)
 
   while victory:
     main.screen.blit(black_bg, (0, 0))
@@ -30,6 +42,7 @@ def victory_screen(main):
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
 
     display_text()
+    display_damage()
 
     if pygame.time.get_ticks() - start_time > 2000:
       victory = False

@@ -8,6 +8,7 @@ from components import *
 from player import *
 from mob import *
 import random
+from threading import Timer
 
 def fight_screen(main, max_enemy_hp, mob_url):
   fight = True
@@ -15,6 +16,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
   remaining_screen = False
   current_turn = "player"
   victory = False
+  damage_received = 0
+  damage_inflicted = 0
+  action_type = "Idle"
+  attack_cards = ["BladeDance", "LimitBreak", "PerfectStrike"]
 
   button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
@@ -43,20 +48,21 @@ def fight_screen(main, max_enemy_hp, mob_url):
       discard_screen = True
 
   def attack(card):
-    nonlocal enemy_hp, fight, victory
+    nonlocal enemy_hp, fight, victory, damage_received, damage_inflicted, action_type
     discarded_cards.append(card.card_type)
     current_deck.remove(card.card_type)
     enemy_hp = card.enemy_hp
     main.player_hp = card.main.player_hp
     main.player_armor = card.main.player_armor
-    pygame.time.delay(250)
+    damage_received += card.damage_received
+    damage_inflicted += card.damage_inflicted
 
     if enemy_hp <= 0:
       victory = True
       fight = False
 
   def switch_turn():
-    nonlocal current_turn, enemy_hp, fight, victory
+    nonlocal current_turn, enemy_hp, fight, victory, damage_inflicted, damage_received
     current_turn = "enemy"
 
     chosen_cards = random.sample(ALL_CARDS, 3)
@@ -69,23 +75,29 @@ def fight_screen(main, max_enemy_hp, mob_url):
           main.player_armor -= 6
           if main.player_armor < 0:
             main.player_hp -= abs(main.player_armor)
+            damage_received += abs(main.player_armor)
         else:
           main.player_hp -= 6
+          damage_received += 6
       if chosen_card == "LimitBreak":
         if main.player_armor > 0:
           main.player_armor -= 20
           if main.player_armor < 0:
             main.player_hp -= abs(main.player_armor)
+            damage_received += abs(main.player_armor)
         else:
           main.player_hp -= 20
+          damage_received += 20
         enemy_hp -= 5
       if chosen_card == "PerfectStrike":
         if main.player_armor > 0:
           main.player_armor -= 12
           if main.player_armor < 0:
             main.player_hp -= abs(main.player_armor)
+            damage_received += abs(main.player_armor)
         else:
           main.player_hp -= 12
+          damage_received += 12
     
     if enemy_hp <= 0:
       victory = True
@@ -213,9 +225,23 @@ def fight_screen(main, max_enemy_hp, mob_url):
       mid_card = Card("mid", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
 
     if left_card and left_card.is_pressed():
+      if left_card.card_type in attack_cards:
+        action_type = "Attack"
+        def switch():
+          nonlocal action_type 
+          action_type = "Idle"
+        t = Timer(1.0, switch)
+        t.start()
       attack(left_card)
 
     if mid_card and mid_card.is_pressed():
+      if mid_card.card_type in attack_cards:
+        action_type = "Attack"
+        def switch():
+          nonlocal action_type 
+          action_type = "Idle"
+        t = Timer(1.0, switch)
+        t.start()
       attack(mid_card)
       if len(current_deck) == 0:
         switch_turn()
@@ -232,12 +258,33 @@ def fight_screen(main, max_enemy_hp, mob_url):
             remaining_cards = []
 
     if right_card and right_card.is_pressed():
+      if right_card.card_type in attack_cards:
+        action_type = "Attack"
+        def switch():
+          nonlocal action_type 
+          action_type = "Idle"
+        t = Timer(1.0, switch)
+        t.start()
       attack(right_card)
 
     if ml_card and ml_card.is_pressed():
+      if ml_card.card_type in attack_cards:
+        action_type = "Attack"
+        def switch():
+          nonlocal action_type 
+          action_type = "Idle"
+        t = Timer(1.0, switch)
+        t.start()
       attack(ml_card)
 
     if mr_card and mr_card.is_pressed():
+      if mr_card.card_type in attack_cards:
+        action_type = "Attack"
+        def switch():
+          nonlocal action_type 
+          action_type = "Idle"
+        t = Timer(1.0, switch)
+        t.start()
       attack(mr_card)
 
     if left_card: left_card.is_hovered()
@@ -252,11 +299,11 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
       display_black_bg("d")
 
-    player.update()
+    player.update(action_type)
     player.draw()
 
     pygame_widgets.update(events)
     pygame.display.update()
 
     if fight == False:
-      return victory
+      return [victory, damage_inflicted, damage_received]
