@@ -226,6 +226,18 @@ class Card:
       return False
     return False
   
+  def draw(self):
+    self.screen.blit(self.card_url, (self.x_val, self.y_val))
+
+    self.rect.x = self.x_val
+    self.rect.y = self.y_val
+  
+  def is_hovered(self):
+    mouse_pos = pygame.mouse.get_pos()
+    if self.rect.collidepoint(mouse_pos):
+      self.y_val -= 150
+      self.draw()
+  
 class CardGrid:
   def __init__(self, card_list, screen, width, height, card_type):
     self.list = card_list

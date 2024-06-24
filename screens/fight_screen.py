@@ -240,6 +240,12 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if mr_card and mr_card.is_pressed():
       attack(mr_card)
 
+    if left_card: left_card.is_hovered()
+    if mid_card: mid_card.is_hovered()
+    if right_card: right_card.is_hovered()
+    if ml_card: ml_card.is_hovered()
+    if mr_card: mr_card.is_hovered()
+
     if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
       display_black_bg("r")
 
