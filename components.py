@@ -1,6 +1,5 @@
 import pygame
 from config import *
-import time
 
 class Player(pygame.sprite.Sprite):
   def __init__(self, game):
