@@ -19,11 +19,11 @@ def fight_screen(main, max_enemy_hp, mob_url):
   damage_received = 0
   damage_inflicted = 0
   action_type = "Idle"
-  attack_cards = ["BladeDance", "LimitBreak", "PerfectStrike"]
+  attack_cards = ["BladeDance", "LimitBreak", "PerfectStrike", "BodySlam", "Carnage"]
 
   button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
-  remaining_cards = ["BladeDance", "Defend", "Feed", "LimitBreak", "PerfectStrike"]
+  remaining_cards = ALL_CARDS
   random.shuffle(remaining_cards)
   discarded_cards = []
   current_deck = remaining_cards[0:3]
@@ -98,6 +98,25 @@ def fight_screen(main, max_enemy_hp, mob_url):
         else:
           main.player_hp -= 12
           damage_received += 12
+      if chosen_card == "BodySlam":
+        if main.player_armor > 0:
+          main.player_armor -= 10
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
+            damage_received += abs(main.player_armor)
+        else:
+          main.player_hp -= 10
+          damage_received += 10
+      if chosen_card == "Carnage":
+        if main.player_armor > 0:
+          main.player_armor -= 30
+          if main.player_armor < 0:
+            main.player_hp -= abs(main.player_armor)
+            damage_received += abs(main.player_armor)
+        else:
+          main.player_hp -= 30
+          damage_received += 30
+        enemy_hp -= 15
     
     if enemy_hp <= 0:
       victory = True

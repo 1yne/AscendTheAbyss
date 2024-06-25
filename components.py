@@ -230,6 +230,36 @@ class Card:
         if self.card_type == "PerfectStrike":
           self.enemy_hp -= 12
           self.damage_inflicted += 12
+        
+        if self.card_type == "Barricade":
+          self.main.player_armor += 14
+          if self.main.player_armor > 50:
+            self.main.player_armor = 50
+
+        if self.card_type == "BodySlam":
+          self.main.player_armor += 10
+          if self.main.player_armor > 50:
+            self.main.player_armor = 50
+          self.enemy_hp -= 10
+          self.damage_inflicted += 10
+        
+        if self.card_type == "Carnage":
+          self.enemy_hp -= 30
+          self.main.player_hp -= 15
+          self.damage_inflicted += 30
+          self.damage_received += 15
+        
+        if self.card_type == "FeelNoPain":
+          self.main.player_armor += 20
+          if self.main.player_armor > 50:
+            self.main.player_armor = 50
+
+        if self.card_type == "GhostArmour":
+          self.main.player_armor += 20
+          if self.main.player_armor > 50:
+            self.main.player_armor = 50
+          self.main.player_hp -= 5
+          self.damage_received += 5
         return True
       return False
     return False

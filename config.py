@@ -12,5 +12,10 @@ ALL_CARDS = [
   "Defend",
   "Feed",
   "LimitBreak",
-  "PerfectStrike"
+  "PerfectStrike",
+  "Barricade",
+  "BodySlam",
+  "Carnage",
+  "FeelNoPain",
+  "GhostArmour"
 ]
