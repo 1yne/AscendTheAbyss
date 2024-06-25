@@ -74,25 +74,25 @@ class Game:
     
     play_mob_mus()
     data = fight_screen(main, 40, "enemy_one")
+    play_intro_mus("second")
     victory_screen(main, data)
-    
     if data[0]:
-      play_intro_mus("second")
       play_mob_mus()
       data = fight_screen(main, 50, "enemy_two")
+      play_intro_mus("second")
       victory_screen(main, data)
       if data[0]:
-        play_intro_mus("second")
         victory_screen(main, data)
         rest_screen(main)
         play_mob_mus()
         data = fight_screen(main, 70, "enemy_three")
+        play_intro_mus("second")
         victory_screen(main, data)
         if data[0]:
-          play_intro_mus("second")
           victory_screen(main, data)
           play_mob_mus()
           data = fight_screen(main, 80, "enemy_four")
+          play_intro_mus("second")
           victory_screen(main, data)
           if data[0]:
             play_intro_mus("second")
@@ -100,20 +100,29 @@ class Game:
             rest_screen(main),
             play_boss_mus()
             data = fight_screen(main, 100, "boss")
+            play_intro_mus("second")
             victory_screen(main, data)
             if data[0]:
               intro_screen(main)
             else:
-              data = fight_screen(main, 40, "boss")
+              main.player_hp = 100
+              main.player_armor = 50
+              data = fight_screen(main, 40, "enemy_one")
               victory_screen(main, data)
           else:
-            data = fight_screen(main, 40, "enemy_four")
+            main.player_hp = 100
+            main.player_armor = 50
+            data = fight_screen(main, 40, "enemy_one")
             victory_screen(main, data)
         else:
-          data = fight_screen(main, 40, "enemy_three")
+          main.player_hp = 100
+          main.player_armor = 50
+          data = fight_screen(main, 40, "enemy_one")
           victory_screen(main, data)
       else:
-        data = fight_screen(main, 40, "enemy_two")
+        main.player_hp = 100
+        main.player_armor = 50
+        data = fight_screen(main, 40, "enemy_one")
         victory_screen(main, data)
     else:
       data = fight_screen(main, 40, "enemy_one")
