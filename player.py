@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 class Player():
-  def __init__(self, screen):
+  def __init__(self, screen, width, height):
     self.size = 192
     self.screen = screen
     self.frame = 0
@@ -10,8 +10,8 @@ class Player():
     self.animation_list = self.load_images("Idle")
     self.image = self.animation_list[self.frame]
     self.update_time = pygame.time.get_ticks()
-    self.x_val = 230
-    self.y_val = 328
+    self.x_val = width / 4 
+    self.y_val = height / 3 * 2
 
   def load_images(self, action_type):
     if action_type == "Attack":

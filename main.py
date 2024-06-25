@@ -82,21 +82,17 @@ class Game:
       play_intro_mus("second")
       victory_screen(main, data)
       if data[0]:
-        victory_screen(main, data)
         rest_screen(main)
         play_mob_mus()
         data = fight_screen(main, 70, "enemy_three")
         play_intro_mus("second")
         victory_screen(main, data)
         if data[0]:
-          victory_screen(main, data)
           play_mob_mus()
           data = fight_screen(main, 80, "enemy_four")
           play_intro_mus("second")
           victory_screen(main, data)
           if data[0]:
-            play_intro_mus("second")
-            victory_screen(main, data)
             rest_screen(main),
             play_boss_mus()
             data = fight_screen(main, 100, "boss")
