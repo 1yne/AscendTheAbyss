@@ -103,6 +103,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
       victory = True
       fight = False
 
+    if main.player_hp <= 0:
+      victory = False
+      fight = False
+
   player = Player(main.screen)
     
   while fight:

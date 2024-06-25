@@ -14,7 +14,10 @@ def victory_screen(main, data):
   damage_received = data[2]
 
   def display_text():
-    title = main.font.render("VICTORY", True, WHITE)
+    if data[0] == True:
+      title = main.font.render("VICTORY", True, WHITE)
+    else:
+      title = main.font.render("DEFEAT", True, WHITE)
     title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 5))
     main.screen.blit(title, title_coords)
 
