@@ -44,16 +44,11 @@ class Game:
         main.screen.blit(pygame.transform.scale(main.intro_background, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     
-    def play_intro_mus(type):
-      if type == "first":
-        mixer.music.load("./music/IntroMusic.mp3") 
-        mixer.music.set_volume(0.7) 
-        mixer.music.play()
-      else:
-        mixer.music.pause()  
-        mixer.music.load("./music/IntroMusic.mp3") 
-        mixer.music.set_volume(0.7) 
-        mixer.music.play()
+    def play_intro_mus():
+      mixer.music.pause()  
+      mixer.music.load("./music/IntroMusic.mp3") 
+      mixer.music.set_volume(0.7) 
+      mixer.music.play()
     
     def play_mob_mus():
       mixer.music.pause()      
@@ -68,61 +63,36 @@ class Game:
       mixer.music.play() 
 
     pygame.mixer.init()
-    play_intro_mus("first")
+    play_intro_mus()
     intro_screen(main)
 
+    mob_list = ["enemy_one", "enemy_two", "enemy_three", "enemy_four", "boss"]
+    enemy_list = {"enemy_one": 40, "enemy_two": 50, "enemy_three": 70, "enemy_four": 80, "boss": 100}
+
+    current_mob_index = 0
+    current_mob = mob_list[current_mob_index]
     
-    play_mob_mus()
-    data = fight_screen(main, 40, "enemy_one")
-    play_intro_mus("second")
-    victory_screen(main, data)
-    if data[0]:
-      play_mob_mus()
-      data = fight_screen(main, 50, "enemy_two")
-      play_intro_mus("second")
-      victory_screen(main, data)
-      if data[0]:
+    should_restart = True
+
+    while should_restart:
+      current_mob = mob_list[current_mob_index]
+      if current_mob == "enemy_three" or current_mob == "boss":
         rest_screen(main)
+        current_mob_index += 1
+        continue
+      if "enemy" in current_mob:
         play_mob_mus()
-        data = fight_screen(main, 70, "enemy_three")
-        play_intro_mus("second")
-        victory_screen(main, data)
-        if data[0]:
-          play_mob_mus()
-          data = fight_screen(main, 80, "enemy_four")
-          play_intro_mus("second")
-          victory_screen(main, data)
-          if data[0]:
-            rest_screen(main),
-            play_boss_mus()
-            data = fight_screen(main, 100, "boss")
-            play_intro_mus("second")
-            victory_screen(main, data)
-            if data[0]:
-              intro_screen(main)
-            else:
-              main.player_hp = 100
-              main.player_armor = 50
-              data = fight_screen(main, 40, "enemy_one")
-              victory_screen(main, data)
-          else:
-            main.player_hp = 100
-            main.player_armor = 50
-            data = fight_screen(main, 40, "enemy_one")
-            victory_screen(main, data)
-        else:
-          main.player_hp = 100
-          main.player_armor = 50
-          data = fight_screen(main, 40, "enemy_one")
-          victory_screen(main, data)
       else:
-        main.player_hp = 100
-        main.player_armor = 50
-        data = fight_screen(main, 40, "enemy_one")
-        victory_screen(main, data)
-    else:
-      data = fight_screen(main, 40, "enemy_one")
+        play_boss_mus()
+      data = fight_screen(main, enemy_list[current_mob], current_mob)
+      play_intro_mus()
       victory_screen(main, data)
+      if data[0] == True:
+        current_mob_index += 1
+      elif data[0] == False:
+        current_mob_index = 0
+        main.player_armor = 50
+        main.player_hp = 100
     
   
   def draw(main):
