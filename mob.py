@@ -22,5 +22,8 @@ class Mob:
       self.image = pygame.transform.scale(self.image, (300, 250))
       self.x_val = width / 4 * 3 - 80
       self.y_val = 280
+    elif url == "boss":
+      self.x_val = width / 2 + 120
+      self.y_val = 200
 
     self.screen.blit(self.image, (self.x_val, self.y_val))
