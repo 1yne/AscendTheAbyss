@@ -7,6 +7,7 @@ from screens.map_screen import *
 from screens.intro_screen import *
 from screens.fight_screen import *
 from screens.victory_screen import *
+from screens.rest_screen import *
 
 class Game: 
   def __init__(main):
@@ -42,7 +43,6 @@ class Game:
         main.screen.blit(pygame.transform.scale(main.intro_background, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     intro_screen(main)
-    # map_screen(main, main.current_state)
 
     data = fight_screen(main, 40, "enemy_one")
     if data[0]:
@@ -50,10 +50,15 @@ class Game:
       data = fight_screen(main, 50, "enemy_two")
       if data[0]:
         victory_screen(main, data)
+        rest_screen(main)
         data = fight_screen(main, 70, "enemy_three")
         if data[0]:
           victory_screen(main, data)
           data = fight_screen(main, 80, "enemy_four")
+          if data[0]:
+            victory_screen(main, data)
+            rest_screen(main),
+            data = fight_screen(main, 100, "boss")
     
     
   

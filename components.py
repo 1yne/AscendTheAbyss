@@ -7,8 +7,9 @@ class Player(pygame.sprite.Sprite):
     self.game = game
 
 class Button:
-  def __init__(self, x, y, width, height, fg, bg, content, fontsize, image):
+  def __init__(self, x, y, width, height, fg, bg, content, fontsize, screen, main):
     self.font = pygame.font.Font("EBGaramond.ttf", fontsize)
+    self.image = "./images/PlayButton.png"
 
     self.content = content
     self.x = x
@@ -18,8 +19,8 @@ class Button:
     self.fg = fg
     self.bg = bg
     self.fontsize = fontsize
+    self.screen = screen
 
-    self.image = image
     self.raw_bg_image = pygame.image.load(self.image)
     self.bg_image = pygame.transform.scale(self.raw_bg_image, (self.width, self.height))
 
@@ -27,9 +28,7 @@ class Button:
     self.image.blit(self.bg_image, (0, 0))
     self.rect = self.image.get_rect(center=(self.x, self.y))
 
-    self.text = self.font.render(self.content, True, self.fg)
-    self.text_coords = self.text.get_rect(center=(self.width / 2, self.height / 2))
-    self.image.blit(self.text, self.text_coords)
+    self.screen.blit(self.image, (main.SCREEN_WIDTH / 2 - 190, main.SCREEN_HEIGHT / 3 + 80))
   
   def is_pressed(self, pos, pressed):
     if self.rect.collidepoint(pos):
