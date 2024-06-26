@@ -14,7 +14,6 @@ def fight_screen(main, max_enemy_hp, mob_url):
   fight = True
   discard_screen = False
   remaining_screen = False
-  current_turn = "player"
   victory = False
   damage_received = 0
   damage_inflicted = 0
@@ -23,7 +22,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
   button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
-  remaining_cards = ALL_CARDS
+  remaining_cards = ALL_CARDS.copy()
   random.shuffle(remaining_cards)
   discarded_cards = []
   current_deck = remaining_cards[0:3]
@@ -62,8 +61,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
       fight = False
 
   def switch_turn():
-    nonlocal current_turn, enemy_hp, fight, victory, damage_inflicted, damage_received
-    current_turn = "enemy"
+    nonlocal enemy_hp, fight, victory, damage_inflicted, damage_received
 
     chosen_cards = random.sample(ALL_CARDS, 3)
     for chosen_card in chosen_cards:
