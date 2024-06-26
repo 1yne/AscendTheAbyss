@@ -44,6 +44,8 @@ class Player():
 
   def update(self, action_type, width, height):
     self.animation_list = self.load_images(action_type, width, height)
+    if self.frame > len(self.animation_list) - 1:
+      self.frame = len(self.animation_list) - 1
     self.image = self.animation_list[self.frame]
     animation_cooldown = 150
 
