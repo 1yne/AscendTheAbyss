@@ -78,8 +78,6 @@ class Game:
       current_mob = mob_list[current_mob_index]
       if current_mob == "enemy_three" or current_mob == "boss":
         rest_screen(main)
-        current_mob_index += 1
-        continue
       if "enemy" in current_mob:
         play_mob_mus()
       else:
