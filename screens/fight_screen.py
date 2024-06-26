@@ -229,6 +229,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     remaining_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
+    
     left_card = None
     mid_card = None
     right_card = None 
