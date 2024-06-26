@@ -22,7 +22,7 @@ class Game:
 
     main.raw_intro_background = pygame.image.load("./images/Background.jpeg")
     main.raw_map_background = pygame.image.load("./images/MapBackground.png")
-    main.raw_fight_background = pygame.image.load("./images/FightBackground.png")
+    main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
     main.player_hp = 100
     main.player_armor = 50
@@ -78,7 +78,9 @@ class Game:
       current_mob = mob_list[current_mob_index]
       if current_mob == "enemy_three" or current_mob == "boss":
         rest_screen(main)
-      if "enemy" in current_mob:
+        current_mob_index += 1
+        continue
+      elif "enemy" in current_mob:
         play_mob_mus()
       else:
         play_boss_mus()

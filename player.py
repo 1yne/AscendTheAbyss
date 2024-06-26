@@ -3,23 +3,23 @@ from pygame.locals import *
 
 class Player():
   def __init__(self, screen, width, height):
-    self.size = 192
+    self.size = 64
     self.screen = screen
     self.frame = 0
     self.scale = 3.5
-    self.animation_list = self.load_images("Idle")
+    self.animation_list = self.load_images("Idle", width, height)
     self.image = self.animation_list[self.frame]
     self.update_time = pygame.time.get_ticks()
-    self.x_val = width / 4 
-    self.y_val = height / 3 * 2
+    self.width = width
+    self.height = height
+    self.x_val = width / 6
+    self.y_val = height / 2.5
 
-  def load_images(self, action_type):
+  def load_images(self, action_type, width, height):
     if action_type == "Attack":
-      img_url = "./images/SlashAttack.png" 
+      img_url = "./images/PlayerAttack.png" 
       sprite_sheet = pygame.image.load(img_url).convert_alpha()
-      size = 192
-      self.x_val = 0
-      self.y_val = 80
+      size = self.size
 
       img_list = []
       for x in range(0, 6):
@@ -30,12 +30,10 @@ class Player():
     elif action_type == "Idle":
       img_url = "./images/PlayerIdle.png"
       sprite_sheet = pygame.image.load(img_url).convert_alpha()
-      size = 64
-      self.x_val = 230
-      self.y_val = 328
+      size = self.size
 
       img_list = []
-      for x in range(0, 6):
+      for x in range(0, 7):
         temp_img = sprite_sheet.subsurface(x * size, 0, size, size)
         img_list.append(pygame.transform.scale(temp_img, (size * self.scale, size * self.scale)))
 
@@ -44,8 +42,8 @@ class Player():
   def draw(self):
     self.screen.blit(self.image, (self.x_val, self.y_val))
 
-  def update(self, action_type):
-    self.animation_list = self.load_images(action_type)
+  def update(self, action_type, width, height):
+    self.animation_list = self.load_images(action_type, width, height)
     self.image = self.animation_list[self.frame]
     animation_cooldown = 150
 

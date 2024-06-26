@@ -23,19 +23,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
   button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
-  remaining_cards = [
-    "BladeDance",
-    "Defend",
-    "Feed",
-    "LimitBreak",
-    "PerfectStrike",
-    "Barricade",
-    "BodySlam",
-    "Carnage",
-    "FeelNoPain",
-    "GhostArmour"
-  ]
-
+  remaining_cards = ALL_CARDS
   random.shuffle(remaining_cards)
   discarded_cards = []
   current_deck = remaining_cards[0:3]
@@ -76,13 +64,8 @@ def fight_screen(main, max_enemy_hp, mob_url):
   def switch_turn():
     nonlocal current_turn, enemy_hp, fight, victory, damage_inflicted, damage_received
     current_turn = "enemy"
-    chosen_cards = []
 
-    if mob_url == "enemy_one" or mob_url == "enemy_two":
-      chosen_cards = random.choices(ALL_CARDS, weights = [5, 1, 4, 5, 5, 1, 2, 2, 1, 1], k = 3)
-    if mob_url == "enemy_three" or mob_url == "enemy_four":
-      chosen_cards = random.choices(ALL_CARDS, weights = [5, 1, 4, 6, 5, 1, 4, 6, 1, 1], k = 3)
-
+    chosen_cards = random.sample(ALL_CARDS, 3)
     for chosen_card in chosen_cards:
       if chosen_card == "Feed":
         if max_enemy_hp - enemy_hp > 7:
@@ -227,7 +210,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     player_health_bar.draw(main.screen)
     enemy_health_bar.draw(main.screen, main.SCREEN_WIDTH)
 
-    Mob(mob_url, main.screen, main.SCREEN_WIDTH)
+    Mob(mob_url, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
     end_turn = PyButton(
       main.screen,
@@ -339,7 +322,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
       display_black_bg("d")
 
-    player.update(action_type)
+    player.update(action_type, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     player.draw()
 
     pygame_widgets.update(events)
