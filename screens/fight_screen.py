@@ -17,8 +17,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
   damage_inflicted = 0
   action_type = "Idle"
   attack_cards = ["BladeDance", "LimitBreak", "PerfectStrike", "BodySlam", "Carnage"]
-
-  button_font = pygame.font.Font("EBGaramond.ttf", 20)
+  current_turn = "player"
 
   remaining_cards = ALL_CARDS.copy()
   random.shuffle(remaining_cards)
@@ -43,6 +42,11 @@ def fight_screen(main, max_enemy_hp, mob_url):
       remaining_screen = True
     else:
       discard_screen = True
+  
+  def display_enemy_turn():
+    title = deck_title.render("Enemy's Turn", True, WHITE)
+    title_coords = title.get_rect(center=(main.SCREEN_WIDTH / 2, 40))
+    main.screen.blit(title, title_coords)
 
   def attack(card):
     nonlocal enemy_hp, fight, victory, damage_received, damage_inflicted, action_type
@@ -208,20 +212,6 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     Mob(mob_url, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
-    # end_turn = PyButton(
-    #   main.screen,
-    #   main.SCREEN_WIDTH - 300,
-    #   main.SCREEN_HEIGHT - 300,
-    #   160,
-    #   40,
-    #   text="End Turn",
-    #   inactiveColour=GREY,
-    #   radius=8,
-    #   textColour=WHITE,
-    #   font=button_font,
-    #   onClick=lambda: switch_turn()
-    # )
-
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
 
@@ -234,15 +224,18 @@ def fight_screen(main, max_enemy_hp, mob_url):
     ml_card = None
     mr_card = None
 
-    if len(current_deck) == 3:
-      left_card = Card("left", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-      mid_card = Card("mid", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-      right_card = Card("right", current_deck[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-    elif len(current_deck) == 2:
-      ml_card = Card("ml", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-      mr_card = Card("mr", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
-    elif len(current_deck) == 1:
-      mid_card = Card("mid", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    if current_turn == "player":
+      if len(current_deck) == 3:
+        left_card = Card("left", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+        mid_card = Card("mid", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+        right_card = Card("right", current_deck[2], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+      elif len(current_deck) == 2:
+        ml_card = Card("ml", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+        mr_card = Card("mr", current_deck[1], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+      elif len(current_deck) == 1:
+        mid_card = Card("mid", current_deck[0], main.SCREEN_WIDTH, main.SCREEN_HEIGHT, main.screen, main, enemy_hp)
+    elif current_turn == "enemy":
+      display_enemy_turn()
 
     if left_card and left_card.is_pressed():
       if left_card.card_type in attack_cards:
@@ -264,7 +257,13 @@ def fight_screen(main, max_enemy_hp, mob_url):
         t.start()
       attack(mid_card)
       if len(current_deck) == 0:
-        switch_turn()
+        current_turn = "enemy"
+        def switch():
+          nonlocal current_turn 
+          current_turn = "player"
+          switch_turn()
+        t = Timer(3.0, switch)
+        t.start()
         if len(remaining_cards) >= 3:
           current_deck = remaining_cards[0:3]
           del remaining_cards[0:3]
