@@ -3,7 +3,6 @@ from pygame.locals import *
 from components import *
 from config import *
 from functions import *
-from screens.map_screen import *
 from screens.intro_screen import *
 from screens.fight_screen import *
 from screens.victory_screen import *
@@ -21,7 +20,6 @@ class Game:
     main.SCREEN_WIDTH, main.SCREEN_HEIGHT = pygame.display.get_surface().get_size()
 
     main.raw_intro_background = pygame.image.load("./images/Background.jpeg")
-    main.raw_map_background = pygame.image.load("./images/MapBackground.png")
     main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
 
     main.player_hp = 100
