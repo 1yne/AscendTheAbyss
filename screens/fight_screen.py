@@ -1,7 +1,5 @@
 import pygame
 from pygame.locals import *
-import pygame_widgets
-from pygame_widgets.button import Button as PyButton
 from config import *
 from functions import *
 from components import *
@@ -210,19 +208,19 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     Mob(mob_url, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
-    end_turn = PyButton(
-      main.screen,
-      main.SCREEN_WIDTH - 300,
-      main.SCREEN_HEIGHT - 300,
-      160,
-      40,
-      text="End Turn",
-      inactiveColour=GREY,
-      radius=8,
-      textColour=WHITE,
-      font=button_font,
-      onClick=lambda: switch_turn()
-    )
+    # end_turn = PyButton(
+    #   main.screen,
+    #   main.SCREEN_WIDTH - 300,
+    #   main.SCREEN_HEIGHT - 300,
+    #   160,
+    #   40,
+    #   text="End Turn",
+    #   inactiveColour=GREY,
+    #   radius=8,
+    #   textColour=WHITE,
+    #   font=button_font,
+    #   onClick=lambda: switch_turn()
+    # )
 
     mouse_pos = pygame.mouse.get_pos()
     mouse_pressed = pygame.mouse.get_pressed()
@@ -325,7 +323,6 @@ def fight_screen(main, max_enemy_hp, mob_url):
     player.update(action_type, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     player.draw()
 
-    pygame_widgets.update(events)
     pygame.display.update()
 
     if fight == False:
