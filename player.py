@@ -7,15 +7,13 @@ class Player():
     self.screen = screen
     self.frame = 0
     self.scale = 3.5
-    self.animation_list = self.load_images("Idle", width, height)
+    self.animation_list = self.load_images("Idle")
     self.image = self.animation_list[self.frame]
     self.update_time = pygame.time.get_ticks()
-    self.width = width
-    self.height = height
     self.x_val = width / 6
     self.y_val = height / 2.5
 
-  def load_images(self, action_type, width, height):
+  def load_images(self, action_type):
     if action_type == "Attack":
       img_url = "./images/PlayerAttack.png" 
       sprite_sheet = pygame.image.load(img_url).convert_alpha()
@@ -27,6 +25,7 @@ class Player():
         img_list.append(pygame.transform.scale(temp_img, (size * self.scale, size * self.scale)))
 
       return img_list
+    
     elif action_type == "Idle":
       img_url = "./images/PlayerIdle.png"
       sprite_sheet = pygame.image.load(img_url).convert_alpha()
@@ -42,8 +41,9 @@ class Player():
   def draw(self):
     self.screen.blit(self.image, (self.x_val, self.y_val))
 
-  def update(self, action_type, width, height):
-    self.animation_list = self.load_images(action_type, width, height)
+  def update(self, action_type):
+    self.animation_list = self.load_images(action_type)
+
     if self.frame > len(self.animation_list) - 1:
       self.frame = len(self.animation_list) - 1
     self.image = self.animation_list[self.frame]
@@ -55,4 +55,3 @@ class Player():
       self.screen.blit(self.image, (self.x_val, self.y_val))
     if self.frame >= len(self.animation_list):
       self.frame = 0
-

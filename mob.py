@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from config import *
+
 class Mob:
   def __init__(self, url, screen, width, height):
     self.url = url

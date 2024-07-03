@@ -216,7 +216,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     mouse_pressed = pygame.mouse.get_pressed()
 
     discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
-    remaining_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
+    remaining_pile.draw(main.SCREEN_HEIGHT)
     
     left_card = None
     mid_card = None
@@ -319,7 +319,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if discard_pile.is_pressed(mouse_pos, mouse_pressed):
       display_black_bg("d")
 
-    player.update(action_type, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
+    player.update(action_type)
     player.draw()
 
     pygame.display.update()

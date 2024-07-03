@@ -7,7 +7,7 @@ def victory_screen(main, data):
   victory = True
   black_bg = pygame.Surface((main.SCREEN_WIDTH, main.SCREEN_HEIGHT), pygame.SRCALPHA)
   black_bg.fill((0, 0, 0, 200))
-  fade_in_victory(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, black_bg)
+  fade_in_victory(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
   start_time = pygame.time.get_ticks()
   font = pygame.font.Font('EBGaramond.ttf', 45)
   damage_inflicted = data[1]

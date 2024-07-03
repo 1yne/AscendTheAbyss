@@ -18,7 +18,7 @@ def fade_in(self, width, height, background):
     pygame.display.update()
     pygame.time.delay(8)
 
-def fade_in_victory(self, width, height, background):
+def fade_in_victory(self, width, height):
   fade = pygame.Surface((width, height), pygame.SRCALPHA)
   fade.fill((0, 0, 0))
   for alpha in range(0, 100):

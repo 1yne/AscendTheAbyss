@@ -24,9 +24,6 @@ class Game:
 
     main.player_hp = 100
     main.player_armor = 50
-
-    main.current_state = "enemy_one"
-
   def new(main):
     main.playing = True
 
@@ -80,13 +77,13 @@ class Game:
       data = fight_screen(main, enemy_list[current_mob], current_mob)
       play_intro_mus()
       victory_screen(main, data)
+
       if data[0] == True:
         current_mob_index += 1
       elif data[0] == False:
         current_mob_index = 0
         main.player_armor = 50
         main.player_hp = 100
-    
   
   def draw(main):
     main.screen.fill(BLACK)

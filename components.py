@@ -1,10 +1,6 @@
 import pygame
 from config import *
 
-class Player(pygame.sprite.Sprite):
-  def __init__(self, game):
-    self.game = game
-
 class Button:
   def __init__(self, x, y, width, height, fg, bg, content, fontsize, screen, main):
     self.font = pygame.font.Font("EBGaramond.ttf", fontsize)
@@ -52,11 +48,13 @@ class PlayerHealthBar:
     self.y = 20
     self.width = 343
     self.height = 12.5
+
     self.hp = player_hp
     self.max_hp = 100
-    self.screen = screen
     self.armor = player_armor
     self.max_armor = 50
+
+    self.screen = screen
 
   def draw(self, surface):
     raw_hp_bg = pygame.image.load("./images/HealthBar.png")
@@ -106,7 +104,7 @@ class RemainingPile:
     self.screen = screen
     self.rect = self.card_url.get_rect()
 
-  def draw(self, width, height):
+  def draw(self, height):
     self.screen.blit(self.card_url, (20, height - 100))
     self.rect.x = 20
     self.rect.y = height - 100
@@ -136,17 +134,13 @@ class DiscardPile:
       return False
     return False
   
-  def slide(self, screen_width, background):
-    for x in range(screen_width):
-      self.screen.blit(background, (screen_width - x, 0))
-      pygame.display.update()
-
-  
 class BackArrow:
   def __init__(self, screen, pos, width):
     self.screen = screen
     self.back_arrow = pygame.transform.scale(pygame.image.load("./images/BackArrow.png"), (50, 50))
     self.rect = self.back_arrow.get_rect()
+    self.rect.y = 20
+
     if pos == "left":
       self.screen.blit(self.back_arrow, (20, 20))
       self.rect.x = 20
@@ -154,7 +148,6 @@ class BackArrow:
       self.back_arrow = pygame.transform.flip(self.back_arrow, True, False)
       self.screen.blit(self.back_arrow, (width - 60, 20))
       self.rect.x = width - 60
-    self.rect.y = 20
 
   def is_pressed(self):
     mouse_pos = pygame.mouse.get_pos()
@@ -173,9 +166,11 @@ class Card:
     self.card_url = pygame.transform.scale(self.raw_card_url, (300, 450))
     self.screen = screen
     self.rect = self.card_url.get_rect()
+
     self.width = width
     self.height = height
     self.main = main
+
     self.enemy_hp = enemy_hp
     self.damage_inflicted = 0
     self.damage_received = 0
@@ -258,6 +253,7 @@ class Card:
             self.main.player_armor = 50
           self.main.player_hp -= 5
           self.damage_received += 5
+          
         return True
       return False
     return False
