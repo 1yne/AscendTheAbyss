@@ -42,25 +42,22 @@ class Game:
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
     
     def play_intro_mus():
-      print()
-      # mixer.music.pause()  
-      # mixer.music.load("./music/IntroMusic.mp3") 
-      # mixer.music.set_volume(0.7) 
-      # mixer.music.play()
+      mixer.music.pause()  
+      mixer.music.load("./music/IntroMusic.mp3") 
+      mixer.music.set_volume(0.7) 
+      mixer.music.play()
     
     def play_mob_mus():
-      print()
-      # mixer.music.pause()      
-      # mixer.music.load("./music/MobMusic.mp3") 
-      # mixer.music.set_volume(0.7) 
-      # mixer.music.play() 
+      mixer.music.pause()      
+      mixer.music.load("./music/MobMusic.mp3") 
+      mixer.music.set_volume(0.7) 
+      mixer.music.play() 
 
     def play_boss_mus():
-      print()
-      # mixer.music.pause()      
-      # mixer.music.load("./music/BossMusic.mp3") 
-      # mixer.music.set_volume(0.7) 
-      # mixer.music.play() 
+      mixer.music.pause()      
+      mixer.music.load("./music/BossMusic.mp3") 
+      mixer.music.set_volume(0.7) 
+      mixer.music.play() 
 
     pygame.mixer.init()
     play_intro_mus()
