@@ -26,9 +26,3 @@ def fade_in_victory(self, width, height, background):
     self.screen.blit(fade, (0, 0))
     pygame.display.update()
     pygame.time.delay(8)
-
-def show_card(self, pos, height, card_img):
-  x_val = 400 if pos == "left" else 600 if pos == "mid" else 800
-  y_val = height - 350
-  card = pygame.transform.scale(card_img, (300, 450))
-  self.screen.blit(card, (x_val, y_val))
