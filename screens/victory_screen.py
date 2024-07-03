@@ -34,7 +34,6 @@ def victory_screen(main, data):
     main.screen.blit(black_bg, (0, 0))
     events = pygame.event.get()
     for event in events:
-      # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
         victory = False
         main.running = False

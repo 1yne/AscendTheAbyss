@@ -2,8 +2,6 @@ import pygame
 from pygame.locals import *
 from config import *
 from functions import *
-# import pygame_widgets
-# from pygame_widgets.button import Button
 from components import *
 
 def intro_screen(self):
@@ -11,7 +9,6 @@ def intro_screen(self):
   intro_background = pygame.transform.scale(self.raw_intro_background, (800, 700))
   self.button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
-  # print("Intro screen running")
   self.screen.blit(intro_background, (0, 0))
 
   def show_display_text():
@@ -19,14 +16,9 @@ def intro_screen(self):
     title_coords = title.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 5))
     self.screen.blit(title, title_coords)
 
-  def button_is_pressed():
-    self.intro = False
-    fade_out(self, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-
   while self.intro:
     events = pygame.event.get()
     for event in events:
-      # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
         self.intro = False
         self.running = False
@@ -36,27 +28,9 @@ def intro_screen(self):
         self.screen.blit(pygame.transform.scale(intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
 
-    # button = Button(
-    #   self.screen,
-    #   self.SCREEN_WIDTH / 2 - 190,
-    #   self.SCREEN_HEIGHT / 2,
-    #   380,
-    #   40,
-    #   text="PLAY",
-    #   inactiveColour=BROWN,
-    #   hoverColour=BROWN_HOVER,
-    #   radius=8,
-    #   textColour=WHITE,
-    #   font=self.button_font,
-    #   onClick=lambda: button_is_pressed()
-    # )
-
     play_button = Button(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, 380, 120, WHITE, BROWN, 'PLAY', 24, self.screen, self)
 
-    mouse_pos = pygame.mouse.get_pos()
-    mouse_pressed = pygame.mouse.get_pressed()
-
-    if play_button.is_pressed(mouse_pos, mouse_pressed):
+    if play_button.is_pressed():
       self.intro = False
       
     if play_button.is_hovering():
@@ -70,6 +44,5 @@ def intro_screen(self):
     else:
       self.screen.fill(BLACK)
 
-    # pygame_widgets.update(events)
 
     pygame.display.update()

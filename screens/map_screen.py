@@ -82,7 +82,6 @@ def map_screen(main, current_state):
 
   while map_running:
     for event in pygame.event.get():
-      # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
         map_running = False
         main.running = False
@@ -95,21 +94,5 @@ def map_screen(main, current_state):
     pygame.draw.circle(surface, (30,224,33,100), (250,100) ,10)
     
     place_icons(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
-
-    # if current_state == "enemy_one":
-      # map_running = False
-      # return "enemy_one"
-
-    # if is_pressed(enemy_two):
-    #   map_running = False
-    #   return "enemy_two"
-
-    # if is_pressed(enemy_three):
-    #   map_running = False
-    #   return "enemy_three"
-    
-    # if is_pressed(enemy_four):
-    #   map_running = False
-    #   return "enemy_four"
 
     pygame.display.update()

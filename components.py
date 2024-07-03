@@ -29,9 +29,11 @@ class Button:
 
     self.screen.blit(self.image, (main.SCREEN_WIDTH / 2 - 190, main.SCREEN_HEIGHT / 3 + 80))
   
-  def is_pressed(self, pos, pressed):
-    if self.rect.collidepoint(pos):
-      if pressed[0]:
+  def is_pressed(self):
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()
+    if self.rect.collidepoint(mouse_pos):
+      if mouse_pressed[0]:
         return True
       return False
     return False

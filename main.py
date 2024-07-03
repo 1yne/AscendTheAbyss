@@ -30,13 +30,10 @@ class Game:
     main.current_state = "enemy_one"
 
   def new(main):
-    # print("new() runs")
     main.playing = True
 
   def events(main):
-    # print("event() running")
     for event in pygame.event.get():
-      # print("pygame events: ", event.type, pygame.QUIT)
       if event.type == pygame.QUIT:
         main.playing = False
         main.running = False
