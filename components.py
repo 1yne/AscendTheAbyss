@@ -207,6 +207,7 @@ class Card:
 
         if self.card_type == "Feed":
           self.main.player_hp += 7
+          self.damage_received -= 7
           if self.main.player_hp > 100:
             self.main.player_hp = 100
 

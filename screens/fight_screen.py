@@ -70,6 +70,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
       if chosen_card == "Feed":
         if max_enemy_hp - enemy_hp > 7:
           enemy_hp += 7
+          damage_inflicted -= 7
       if chosen_card == "BladeDance":
         if main.player_armor > 0:
           main.player_armor -= 6
