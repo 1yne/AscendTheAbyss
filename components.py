@@ -202,8 +202,8 @@ class Card:
       if mouse_pressed[0]:
         if self.card_type == "Defend":
           self.main.player_armor += 5
-          if self.main.player_armor > 50:
-            self.main.player_armor = 50
+          if self.main.player_armor > self.main.max_player_armor:
+            self.main.player_armor = self.main.max_player_armor
 
         if self.card_type == "Feed":
           self.main.player_hp += 7
@@ -227,13 +227,13 @@ class Card:
         
         if self.card_type == "Barricade":
           self.main.player_armor += 14
-          if self.main.player_armor > 50:
-            self.main.player_armor = 50
+          if self.main.player_armor > self.main.max_player_armor:
+            self.main.player_armor = self.main.max_player_armor
 
         if self.card_type == "BodySlam":
           self.main.player_armor += 10
-          if self.main.player_armor > 50:
-            self.main.player_armor = 50
+          if self.main.player_armor > self.main.max_player_armor:
+            self.main.player_armor = self.main.max_player_armor
           self.enemy_hp -= 10
           self.damage_inflicted += 10
         
@@ -245,13 +245,13 @@ class Card:
         
         if self.card_type == "FeelNoPain":
           self.main.player_armor += 20
-          if self.main.player_armor > 50:
-            self.main.player_armor = 50
+          if self.main.player_armor > self.main.max_player_armor:
+            self.main.player_armor = self.main.max_player_armor
 
         if self.card_type == "GhostArmour":
           self.main.player_armor += 20
-          if self.main.player_armor > 50:
-            self.main.player_armor = 50
+          if self.main.player_armor > self.main.max_player_armor:
+            self.main.player_armor = self.main.max_player_armor
           self.main.player_hp -= 5
           self.damage_received += 5
           

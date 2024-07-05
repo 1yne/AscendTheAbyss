@@ -52,7 +52,7 @@ def rest_screen(main):
       rest_screen = False
 
     if is_pressed(defend_rect):
-      main.player_armor = 50
+      main.player_armor = main.max_player_armor
       rest_screen = False
 
     pygame.display.update()

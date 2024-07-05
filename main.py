@@ -21,9 +21,12 @@ class Game:
 
     main.raw_intro_background = pygame.image.load("./images/Background.jpeg")
     main.raw_fight_background = pygame.image.load("./images/FightBackground.jpeg")
+    main.raw_victory_background = pygame.image.load("./images/MapBackground.png")
 
     main.player_hp = 100
     main.player_armor = 50
+    main.max_player_armor = 50
+
   def new(main):
     main.playing = True
 
@@ -82,7 +85,7 @@ class Game:
         current_mob_index += 1
       elif data[0] == False:
         current_mob_index = 0
-        main.player_armor = 50
+        main.player_armor = main.max_player_armor
         main.player_hp = 100
   
   def draw(main):
