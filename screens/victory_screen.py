@@ -10,6 +10,7 @@ def victory_screen(main, data):
   fade_in(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT, victory_background)
 
   victory_image = pygame.transform.scale(pygame.image.load("./images/Victory.png").convert_alpha(), (420, 382))
+  defeat_image = pygame.transform.scale(pygame.image.load("./images/Defeat.png").convert_alpha(), (500, 382))
 
   start_time = pygame.time.get_ticks()
 
@@ -37,7 +38,7 @@ def victory_screen(main, data):
     dmg_recv_text_coords = dmg_recv_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 2 + 270))
     main.screen.blit(dmg_recv_text, dmg_recv_text_coords)
 
-    armor_buff_text = font.render("Max Armor Buff: +10", True, WHITE)
+    armor_buff_text = font.render("Max Armor Buff: +10" if data[0] else "Max Armor Buff: +0", True, WHITE)
     armor_buff_coords = armor_buff_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 2 + 340))
     main.screen.blit(armor_buff_text, armor_buff_coords)
 
@@ -59,11 +60,13 @@ def victory_screen(main, data):
 
     if data[0]:
       main.screen.blit(victory_image, (main.SCREEN_WIDTH / 2 - 210, 50))
+    else:
+      main.screen.blit(defeat_image, (main.SCREEN_WIDTH / 2 - 210, 50))
 
     display_text()
     display_damage()
 
-    if pygame.time.get_ticks() - start_time > 59000:
+    if pygame.time.get_ticks() - start_time > 5000:
       victory = False
       fade_out(main, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
