@@ -7,7 +7,6 @@ from components import *
 def intro_screen(self):
   self.intro = True
   intro_background = pygame.transform.scale(self.raw_intro_background, (800, 700))
-  self.button_font = pygame.font.Font("EBGaramond.ttf", 20)
 
   self.screen.blit(intro_background, (0, 0))
 
@@ -28,7 +27,7 @@ def intro_screen(self):
         self.screen.blit(pygame.transform.scale(intro_background, event.dict['size']), (0, 0))
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.dict['size']
 
-    play_button = Button(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, 380, 120, WHITE, BROWN, 'PLAY', 24, self.screen, self)
+    play_button = Button(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2, 380, 120, WHITE, BROWN, 'PLAY', 24, self.screen, self, "./images/PlayButton.png")
 
     if play_button.is_pressed():
       self.intro = False
@@ -43,6 +42,5 @@ def intro_screen(self):
       show_display_text()
     else:
       self.screen.fill(BLACK)
-
 
     pygame.display.update()

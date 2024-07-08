@@ -23,6 +23,18 @@ def rest_screen(main):
         return  True
       return False
     return False
+  
+  def display_heal_pic():
+    main.screen.blit(heal_pic, (main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 4))
+    heal_rect.x, heal_rect.y = main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 4
+    heal_text = font.render("Heal Full Health", True, BLACK)
+    main.screen.blit(heal_text, (main.SCREEN_WIDTH / 4 * 3 - 40, main.SCREEN_HEIGHT / 4 + 90))
+  
+  def display_defend_pic():
+    main.screen.blit(defend_pic, (main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 2))
+    defend_rect.x, defend_rect.y = main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 2
+    defend_text = font.render("Restore Full Armor", True, BLACK)
+    main.screen.blit(defend_text, (main.SCREEN_WIDTH / 4 * 3 - 50, main.SCREEN_HEIGHT / 2 + 90))
 
   while rest_screen:
     events = pygame.event.get()
@@ -37,15 +49,8 @@ def rest_screen(main):
         main.screen.blit(pygame.transform.scale(background_img, event.dict['size']), (0, 0))
         main.SCREEN_WIDTH, main.SCREEN_HEIGHT = event.dict['size']
 
-    main.screen.blit(heal_pic, (main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 4))
-    heal_rect.x, heal_rect.y = main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 4
-    heal_text = font.render("Heal Full Health", True, BLACK)
-    main.screen.blit(heal_text, (main.SCREEN_WIDTH / 4 * 3 - 40, main.SCREEN_HEIGHT / 4 + 90))
-
-    main.screen.blit(defend_pic, (main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 2))
-    defend_rect.x, defend_rect.y = main.SCREEN_WIDTH / 4 * 3, main.SCREEN_HEIGHT / 2
-    defend_text = font.render("Restore Full Armor", True, BLACK)
-    main.screen.blit(defend_text, (main.SCREEN_WIDTH / 4 * 3 - 50, main.SCREEN_HEIGHT / 2 + 90))
+    display_heal_pic()
+    display_defend_pic()
 
     if is_pressed(heal_rect):
       main.player_hp = 100

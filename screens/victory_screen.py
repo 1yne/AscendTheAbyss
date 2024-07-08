@@ -38,9 +38,10 @@ def victory_screen(main, data):
     dmg_recv_text_coords = dmg_recv_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 2 + 270))
     main.screen.blit(dmg_recv_text, dmg_recv_text_coords)
 
-    armor_buff_text = font.render("Max Armor Buff: +10" if data[0] else "Max Armor Buff: +0", True, WHITE)
-    armor_buff_coords = armor_buff_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 2 + 340))
-    main.screen.blit(armor_buff_text, armor_buff_coords)
+    if data[0]:
+      armor_buff_text = font.render("Max Armor Buff: +10", True, WHITE)
+      armor_buff_coords = armor_buff_text.get_rect(center=(main.SCREEN_WIDTH / 2, main.SCREEN_HEIGHT / 2 + 340))
+      main.screen.blit(armor_buff_text, armor_buff_coords)
 
 
   while victory:

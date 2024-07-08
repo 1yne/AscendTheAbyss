@@ -10,6 +10,7 @@ class Player():
     self.animation_list = self.load_images("Idle")
     self.image = self.animation_list[self.frame]
     self.update_time = pygame.time.get_ticks()
+    
     self.x_val = width / 6
     self.y_val = height / 2.5
 

@@ -13,8 +13,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
   discard_screen = False
   remaining_screen = False
   victory = False
+
   damage_received = 0
   damage_inflicted = 0
+
   action_type = "Idle"
   attack_cards = ["BladeDance", "LimitBreak", "PerfectStrike", "BodySlam", "Carnage"]
   current_turn = "player"
@@ -35,10 +37,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
   discard_pile = DiscardPile(main.screen)  
   remaining_pile = RemainingPile(main.screen)
 
-  def display_black_bg(type):
+  def display_black_bg(screen_type):
     nonlocal remaining_screen, discard_screen
     main.screen.blit(black_bg, (0, 0))
-    if type == "r":
+    if screen_type == "r":
       remaining_screen = True
     else:
       discard_screen = True
@@ -52,6 +54,7 @@ def fight_screen(main, max_enemy_hp, mob_url):
     nonlocal enemy_hp, fight, victory, damage_received, damage_inflicted, action_type
     discarded_cards.append(card.card_type)
     current_deck.remove(card.card_type)
+
     enemy_hp = card.enemy_hp
     main.player_hp = card.main.player_hp
     main.player_armor = card.main.player_armor
@@ -61,11 +64,16 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if enemy_hp <= 0:
       victory = True
       fight = False
+    
+    if main.player_hp <= 0:
+      victory = False
+      fight = False
 
   def switch_turn():
     nonlocal enemy_hp, fight, victory, damage_inflicted, damage_received
 
     chosen_cards = random.sample(ALL_CARDS, 3)
+
     for chosen_card in chosen_cards:
       if chosen_card == "Feed":
         if max_enemy_hp - enemy_hp > 7:
@@ -213,9 +221,6 @@ def fight_screen(main, max_enemy_hp, mob_url):
 
     Mob(mob_url, main.screen, main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
 
-    mouse_pos = pygame.mouse.get_pos()
-    mouse_pressed = pygame.mouse.get_pressed()
-
     discard_pile.draw(main.SCREEN_WIDTH, main.SCREEN_HEIGHT)
     remaining_pile.draw(main.SCREEN_HEIGHT)
     
@@ -314,10 +319,10 @@ def fight_screen(main, max_enemy_hp, mob_url):
     if ml_card: ml_card.is_hovered()
     if mr_card: mr_card.is_hovered()
 
-    if remaining_pile.is_pressed(mouse_pos, mouse_pressed):
+    if remaining_pile.is_pressed():
       display_black_bg("r")
 
-    if discard_pile.is_pressed(mouse_pos, mouse_pressed):
+    if discard_pile.is_pressed():
       display_black_bg("d")
 
     player.update(action_type)

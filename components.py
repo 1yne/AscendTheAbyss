@@ -2,9 +2,9 @@ import pygame
 from config import *
 
 class Button:
-  def __init__(self, x, y, width, height, fg, bg, content, fontsize, screen, main):
+  def __init__(self, x, y, width, height, fg, bg, content, fontsize, screen, main, url):
     self.font = pygame.font.Font("EBGaramond.ttf", fontsize)
-    self.image = "./images/PlayButton.png"
+    self.image = url
 
     self.content = content
     self.x = x
@@ -109,9 +109,11 @@ class RemainingPile:
     self.rect.x = 20
     self.rect.y = height - 100
 
-  def is_pressed(self, pos, pressed):
-    if self.rect.collidepoint(pos):
-      if pressed[0]:
+  def is_pressed(self):
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()
+    if self.rect.collidepoint(mouse_pos):
+      if mouse_pressed[0]:
         return  True
       return False
     return False
@@ -127,9 +129,11 @@ class DiscardPile:
     self.rect.x = width - 100
     self.rect.y = height - 100
 
-  def is_pressed(self, pos, pressed):
-    if self.rect.collidepoint(pos):
-      if pressed[0]:
+  def is_pressed(self):
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()
+    if self.rect.collidepoint(mouse_pos):
+      if mouse_pressed[0]:
         return  True
       return False
     return False
